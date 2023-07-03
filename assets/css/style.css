@@ -243,8 +243,8 @@ h6 {
   height: 100vh;
   /* height: 75vh; */
   background: url("../img/hero-bg.jpg") top center;
-  /* background-size:  cover; */
-  background-size: 100% 90%;
+  background-size:  cover;
+  /* background-size: 100% 90%; */
 
   background-repeat: no-repeat;
 }
