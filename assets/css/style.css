@@ -247,7 +247,11 @@ h6 {
   /* background-size: 100% 90%; */
 
   background-repeat: no-repeat;
+  background-position: center; /* Ensures the image is centered */
 }
+
+
+
 
 #hero:before {
   content: "";
@@ -474,6 +478,23 @@ section {
 /*--------------------------------------------------------------
 # Resume
 --------------------------------------------------------------*/
+
+.download-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.download-btn:hover {
+  background-color: #0056b3;
+}
+
 .resume .resume-title {
   font-size: 26px;
   font-weight: 700;
