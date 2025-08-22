@@ -49,32 +49,81 @@
     });
   });
 
-  function php_email_form_submit(thisForm, action, formData) {
+  // function php_email_form_submit(thisForm, action, formData) {
+  //   fetch(action, {
+  //     method: 'POST',
+  //     body: formData,
+  //     headers: {'X-Requested-With': 'XMLHttpRequest'}
+  //   })
+  //   .then(response => {
+  //     if( response.ok ) {
+  //       return response.text();
+  //     } else {
+  //       throw new Error(`${response.status} ${response.statusText} ${response.url}`); 
+  //     }
+  //   })
+  //   .then(data => {
+  //     thisForm.querySelector('.loading').classList.remove('d-block');
+  //     if (data.trim() == 'OK') {
+  //       thisForm.querySelector('.sent-message').classList.add('d-block');
+  //       thisForm.reset(); 
+  //     } else {
+  //       throw new Error(data ? data : 'Form submission failed and no error message returned from: ' + action); 
+  //     }
+  //   })
+  //   .catch((error) => {
+  //     displayError(thisForm, error);
+  //   });
+  // }
+
+function php_email_form_submit(thisForm, action, formData) {
+    // UI: start loading
+    thisForm.querySelector('.error-message')?.classList.remove('d-block');
+    thisForm.querySelector('.sent-message')?.classList.remove('d-block');
+    thisForm.querySelector('.loading')?.classList.add('d-block');
+
     fetch(action, {
       method: 'POST',
       body: formData,
-      headers: {'X-Requested-With': 'XMLHttpRequest'}
+      headers: { 'X-Requested-With': 'XMLHttpRequest' }
     })
-    .then(response => {
-      if( response.ok ) {
-        return response.text();
-      } else {
-        throw new Error(`${response.status} ${response.statusText} ${response.url}`); 
+    .then(async (response) => {
+      if (!response.ok) {
+        throw new Error(`${response.status} ${response.statusText} ${response.url}`);
       }
+      const ct = response.headers.get('content-type') || '';
+      if (ct.includes('application/json')) {
+        return { type: 'json', body: await response.json() };
+      }
+      return { type: 'text', body: await response.text() };
     })
-    .then(data => {
-      thisForm.querySelector('.loading').classList.remove('d-block');
-      if (data.trim() == 'OK') {
-        thisForm.querySelector('.sent-message').classList.add('d-block');
-        thisForm.reset(); 
-      } else {
-        throw new Error(data ? data : 'Form submission failed and no error message returned from: ' + action); 
+    .then(({ type, body }) => {
+      // stop loading
+      thisForm.querySelector('.loading')?.classList.remove('d-block');
+
+      // Legacy text "OK"
+      if (type === 'text' && String(body).trim() === 'OK') {
+        thisForm.querySelector('.sent-message')?.classList.add('d-block');
+        thisForm.reset();
+        return;
       }
+
+      // JSON shape { ok: true, next?: "/thanks" }
+      if (type === 'json' && body && body.ok === true) {
+        // Do NOT redirect; show success inline
+        thisForm.querySelector('.sent-message')?.classList.add('d-block');
+        thisForm.reset();
+        return;
+      }
+
+      // Any other payload -> error
+      throw new Error(type === 'json' ? JSON.stringify(body) : (body || 'Unknown response'));
     })
     .catch((error) => {
       displayError(thisForm, error);
     });
   }
+
 
   function displayError(thisForm, error) {
     thisForm.querySelector('.loading').classList.remove('d-block');
