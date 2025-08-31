@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XOHOU AI Solutions | Interactive Pitch Deck</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Tech Neutrals (Dark Mode) -->
+    <!-- Application Structure Plan: This SPA is structured as a series of full-screen slides, mimicking a traditional PowerPoint presentation. Each slide is a distinct section. The user navigates sequentially using "Next" and "Previous" buttons, as well as the left and right arrow keys. This linear structure is optimal for presenting a story-driven pitch, ensuring the audience follows the narrative from problem to solution to the final ask. The goal is to provide a downloadable, executable file that functions as a complete presentation. -->
+    <!-- Visualization & Content Choices: 
+        1. Problem -> Text and Unicode Icons -> Goal: Inform -> Interaction: None -> Justification: Simple, clear, and impactful without charts. Method: HTML/Tailwind.
+        2. Solution -> Flowchart with Text/Icons -> Goal: Organize -> Interaction: None -> Justification: Clearly explains the AI's process flow. Method: HTML/Tailwind.
+        3. Market Growth -> Line Chart -> Goal: Show Change -> Interaction: Tooltips on hover -> Justification: Standard visualization for projections. Library: Chart.js.
+        4. Business Model -> Timeline with Text -> Goal: Organize/Inform -> Interaction: None -> Justification: A clean, easy-to-read timeline format. Method: HTML/Tailwind.
+        5. Pilot Metrics -> Bar Chart -> Goal: Compare/Inform -> Interaction: Buttons to toggle between different metrics -> Justification: Demonstrates a data-driven plan and makes the 'Traction' section feel tangible. Library: Chart.js.
+        6. The Ask -> Text and Unicode Icons -> Goal: Inform -> Interaction: None -> Justification: A simple grid layout to list key needs. Method: HTML/Tailwind.
+        All visuals are simple and serve a clear purpose to enhance comprehension without overcomplicating the presentation.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 2rem;
+            text-align: center;
+            color: #e5e7eb;
+            background-color: #1f2937;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .slide-content {
+            max-width: 1000px;
+            width: 100%;
+        }
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background-color: #3B82F6;
+            color: white;
+            padding: 1rem;
+            border-radius: 9999px;
+            opacity: 0.8;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .nav-button:hover {
+            opacity: 1;
+            transform: translateY(-50%) scale(1.05);
+        }
+        #prev-btn { left: 2rem; }
+        #next-btn { right: 2rem; }
+    </style>
+</head>
+<body class="overflow-hidden">
+
+    <!-- Slides -->
+    <div id="slides-container" class="relative">
+        <!-- Slide 1: Title -->
+        <section class="slide" data-slide="0">
+            <div class="slide-content">
+                <h1 class="text-5xl md:text-7xl font-bold text-gray-100">XOHOU <span class="text-blue-400">AI</span> Solutions</h1>
+                <p class="mt-4 text-xl md:text-3xl text-gray-300 font-semibold">A.I. Voice & Chat Agents for Frustration-Free Support</p>
+                <div class="mt-12 text-lg md:text-xl text-gray-400 font-medium">
+                    <p>Presented by:</p>
+                    <p class="mt-2 text-gray-300">Khushi Papola (CEO) & Deepankar Sharma (CTO)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 2: Problem -->
+        <section class="slide hidden" data-slide="1">
+            <div class="slide-content">
+                <h2 class="text-3xl md:text-5xl font-bold text-gray-100">The Bottleneck in Education & SMEs</h2>
+                <div class="mt-12 grid md:grid-cols-3 gap-8">
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <div class="text-5xl mb-4">😟</div>
+                        <h3 class="text-xl font-semibold mb-2">Student Frustration</h3>
+                        <p class="text-gray-400">Students face delays, confusion, and frustration.</p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <div class="text-5xl mb-4">🥵</div>
+                        <h3 class="text-xl font-semibold mb-2">Administrative Overload</h3>
+                        <p class="text-gray-400">Admin staff are overwhelmed and overworked.</p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <div class="text-5xl mb-4">⏳</div>
+                        <h3 class="text-xl font-semibold mb-2">System Inefficiency</h3>
+                        <p class="text-gray-400">Helplines are major bottlenecks, especially during peak loads.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 3: Solution -->
+        <section class="slide hidden" data-slide="2">
+            <div class="slide-content">
+                <h2 class="text-3xl md:text-5xl font-bold text-gray-100">An Intelligent, Scalable Solution</h2>
+                <div class="mt-12 flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-8">
+                    <div class="p-4 text-center">
+                        <div class="text-4xl">🧑‍🎓</div>
+                        <p class="mt-2 font-semibold text-gray-300">User Query</p>
+                    </div>
+                    <div class="text-4xl text-gray-400">→</div>
+                    <div class="bg-blue-800 p-6 rounded-lg text-center shadow-inner">
+                        <h3 class="text-2xl font-bold text-blue-300">XOHOU AI Agent</h3>
+                        <ul class="mt-4 list-none space-y-2 text-left text-gray-200">
+                            <li>✔️ Handles high volume of queries</li>
+                            <li>✔️ Troubleshoots basic issues</li>
+                            <li>✔️ Instantly scales to meet demand</li>
+                        </ul>
+                    </div>
+                    <div class="text-4xl text-gray-400">→</div>
+                    <div class="flex flex-col space-y-4">
+                        <div class="bg-green-600 text-white rounded-full w-24 h-24 flex items-center justify-center mx-auto text-sm font-semibold text-center">Query Resolved</div>
+                        <div class="bg-yellow-600 text-white rounded-full w-24 h-24 flex items-center justify-center mx-auto text-sm font-semibold text-center">Escalate to Human</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 4: Market Opportunity -->
+        <section class="slide hidden" data-slide="3">
+            <div class="slide-content">
+                <h2 class="text-3xl md:text-5xl font-bold text-gray-100">Why Now? The Perfect Storm for AI</h2>
+                <div class="mt-12 grid md:grid-cols-2 items-center gap-12">
+                    <div class="text-left space-y-4">
+                        <p class="text-lg text-gray-400">The time is right for an AI solution. We are at a unique intersection of accelerating Gen AI adoption and rising demand for digital-first support.</p>
+                        <ul class="list-disc list-inside space-y-2 text-lg text-gray-300">
+                            <li>Accelerating adoption of Gen AI</li>
+                            <li>Demand for 24/7 digital-first support</li>
+                            <li>Institutions are looking to reduce costs</li>
+                        </ul>
+                    </div>
+                    <div class="chart-container bg-gray-900 p-4 rounded-lg">
+                        <canvas id="marketChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Slide 5: Business Model -->
+        <section class="slide hidden" data-slide="4">
+            <div class="slide-content">
+                <h2 class="text-3xl md:text-5xl font-bold text-gray-100">Our Business Model: A Phased Approach</h2>
+                <div class="mt-12 flex flex-col items-center">
+                    <div class="grid md:grid-cols-3 gap-8 w-full max-w-4xl">
+                        <div class="bg-gray-800 p-6 rounded-lg shadow-lg text-center">
+                            <h3 class="text-xl font-bold text-blue-400">Phase I</h3>
+                            <p class="text-gray-400">Pilot in one college (e.g., Graphic Era University) for exam support.</p>
+                        </div>
+                        <div class="bg-gray-800 p-6 rounded-lg shadow-lg text-center">
+                            <h3 class="text-xl font-bold text-blue-400">Phase II</h3>
+                            <p class="text-gray-400">Expand with a SaaS subscription model to other universities.</p>
+                        </div>
+                        <div class="bg-gray-800 p-6 rounded-lg shadow-lg text-center">
+                            <h3 class="text-xl font-bold text-blue-400">Phase III</h3>
+                            <p class="text-gray-400">Diversify into SMEs with "AI receptionist" packages.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6: Pilot Plan -->
+        <section class="slide hidden" data-slide="5">
+            <div class="slide-content">
+                <h2 class="text-3xl md:text-5xl font-bold text-gray-100">Focused Pilot at Graphic Era University</h2>
+                <p class="mt-4 text-lg text-gray-400">We will measure our success through key metrics. Toggle below to see our projected impact.</p>
+                <div class="mt-8 space-x-4">
+                    <button data-metric="resolution" class="metric-btn bg-blue-500 text-white py-2 px-5 rounded-full font-semibold">Query Resolution Rate</button>
+                    <button data-metric="response" class="metric-btn bg-gray-700 text-gray-200 border border-gray-600 py-2 px-5 rounded-full font-semibold">Avg. Response Time</button>
+                    <button data-metric="satisfaction" class="metric-btn bg-gray-700 text-gray-200 border border-gray-600 py-2 px-5 rounded-full font-semibold">Student Satisfaction</button>
+                </div>
+                <div class="chart-container mt-8 bg-gray-900 p-4 rounded-lg">
+                    <canvas id="pilotChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Slide 7: Team -->
+        <section class="slide hidden" data-slide="6">
+            <div class="slide-content">
+                <h2 class="text-3xl md:text-5xl font-bold text-gray-100">The Visionaries Behind XOHOU</h2>
+                <div class="mt-12 grid md:grid-cols-2 gap-8">
+                    <div class="bg-gray-800 p-8 rounded-lg shadow-lg text-center">
+                        <div class="w-24 h-24 rounded-full bg-blue-700 text-blue-200 mx-auto flex items-center justify-center text-3xl font-bold mb-4">KP</div>
+                        <h3 class="text-xl font-bold text-gray-200">Khushi Papola</h3>
+                        <p class="text-blue-400 font-semibold">CEO & Co-founder</p>
+                        <p class="mt-2 text-gray-400">MBA 2026, Graphic Era University. Leads strategy and business development.</p>
+                    </div>
+                    <div class="bg-gray-800 p-8 rounded-lg shadow-lg text-center">
+                        <div class="w-24 h-24 rounded-full bg-blue-700 text-blue-200 mx-auto flex items-center justify-center text-3xl font-bold mb-4">DS</div>
+                        <h3 class="text-xl font-bold text-gray-200">Deepankar Sharma</h3>
+                        <p class="text-blue-400 font-semibold">CTO & Co-founder</p>
+                        <p class="mt-2 text-gray-400">Tech architect with deep AI/ML expertise and a focus on scalable systems.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 8: The Ask -->
+        <section class="slide hidden" data-slide="7">
+            <div class="slide-content">
+                <h2 class="text-3xl md:text-5xl font-bold text-gray-100">Join Us in Building the Future of Support</h2>
+                <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="bg-blue-700 text-white p-6 rounded-lg text-left">
+                        <div class="text-4xl mb-2">🤝</div>
+                        <h3 class="text-xl font-semibold mb-1">Incubation & Mentorship</h3>
+                        <p class="opacity-80">Guidance on selling to large institutions.</p>
+                    </div>
+                    <div class="bg-blue-700 text-white p-6 rounded-lg text-left">
+                        <div class="text-4xl mb-2">☁️</div>
+                        <h3 class="text-xl font-semibold mb-1">Infrastructure Support</h3>
+                        <p class="opacity-80">Cloud credits, workspace, and student dev teams.</p>
+                    </div>
+                    <div class="bg-blue-700 text-white p-6 rounded-lg text-left">
+                        <div class="text-4xl mb-2">🌐</div>
+                        <h3 class="text-xl font-semibold mb-1">Strategic Connections</h3>
+                        <p class="opacity-80">Intros to university administrators and tech heads.</p>
+                    </div>
+                    <div class="bg-blue-700 text-white p-6 rounded-lg text-left">
+                        <div class="text-4xl mb-2">💰</div>
+                        <h3 class="text-xl font-semibold mb-1">Seed Funding</h3>
+                        <p class="opacity-80">Capital to launch and validate the pilot.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 9: Thank You -->
+        <section class="slide hidden" data-slide="8">
+             <div class="slide-content">
+                <h2 class="text-3xl md:text-5xl font-bold text-gray-100">Thank You</h2>
+                <div class="mt-12 text-lg md:text-xl text-gray-400">
+                    <p>For more information, please visit:</p>
+                    <p class="mt-4 font-semibold">
+                        <a href="https://ideepankarsharma2003.github.io/" class="text-blue-400 hover:underline">Deepankar Sharma Portfolio</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <button id="prev-btn" class="nav-button hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+    </button>
+    <button id="next-btn" class="nav-button">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            
+            const showSlide = (index) => {
+                slides.forEach((slide, i) => {
+                    slide.classList.add('hidden');
+                    slide.style.opacity = '0';
+                    if (i === index) {
+                        slide.classList.remove('hidden');
+                        setTimeout(() => slide.style.opacity = '1', 50);
+                    }
+                });
+                
+                prevBtn.classList.toggle('hidden', index === 0);
+                nextBtn.classList.toggle('hidden', index === slides.length - 1);
+
+                if (index === 3) {
+                    initMarketChart();
+                } else if (index === 5) {
+                    initPilotChart();
+                }
+            };
+
+            const nextSlide = () => {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            };
+
+            const prevSlide = () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            };
+
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+
+            document.addEventListener('keyup', (e) => {
+                if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+                    nextSlide();
+                } else if (e.key === 'ArrowLeft') {
+                    prevSlide();
+                }
+            });
+
+            // Chart Data and Initialization
+            let marketChartInitialized = false;
+            let pilotChartInitialized = false;
+
+            const marketData = {
+                labels: ['2023', '2024', '2025', '2026', '2027', '2028'],
+                datasets: [{
+                    label: 'Market Size ($ Billions)',
+                    data: [15.8, 20.3, 26.1, 33.5, 43.0, 55.2],
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    borderColor: '#3B82F6',
+                    tension: 0.4,
+                    fill: true,
+                }]
+            };
+
+            const pilotDatasets = {
+                resolution: {
+                    label: 'Query Resolution Rate (%)',
+                    data: [25, 85],
+                    backgroundColor: ['#4B5563', '#3B82F6']
+                },
+                response: {
+                    label: 'Average Response Time (Minutes)',
+                    data: [15, 0.5],
+                    backgroundColor: ['#4B5563', '#3B82F6']
+                },
+                satisfaction: {
+                    label: 'Student Satisfaction (%)',
+                    data: [60, 92],
+                    backgroundColor: ['#4B5563', '#3B82F6']
+                }
+            };
+            
+            const initMarketChart = () => {
+                if (!marketChartInitialized) {
+                    const ctx = document.getElementById('marketChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: marketData,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                    ticks: { color: '#e5e7eb' }
+                                },
+                                x: {
+                                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                    ticks: { color: '#e5e7eb' }
+                                }
+                            },
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: { bodyColor: '#e5e7eb', titleColor: '#e5e7eb' }
+                            }
+                        }
+                    });
+                    marketChartInitialized = true;
+                }
+            };
+
+            const initPilotChart = () => {
+                if (!pilotChartInitialized) {
+                    const ctx = document.getElementById('pilotChart').getContext('2d');
+                    const pilotChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Without AI', 'With XOHOU AI (Projected)'],
+                            datasets: [{
+                                label: pilotDatasets.resolution.label,
+                                data: pilotDatasets.resolution.data,
+                                backgroundColor: pilotDatasets.resolution.backgroundColor
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                    ticks: { color: '#e5e7eb' }
+                                },
+                                x: {
+                                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                    ticks: { color: '#e5e7eb' }
+                                }
+                            },
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: { bodyColor: '#e5e7eb', titleColor: '#e5e7eb' }
+                            }
+                        }
+                    });
+                    
+                    document.querySelectorAll('.metric-btn').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            document.querySelectorAll('.metric-btn').forEach(b => {
+                                b.classList.remove('bg-blue-500', 'text-white');
+                                b.classList.add('bg-gray-700', 'text-gray-200', 'border', 'border-gray-600');
+                            });
+                            btn.classList.remove('bg-gray-700', 'text-gray-200', 'border', 'border-gray-600');
+                            btn.classList.add('bg-blue-500', 'text-white');
+                            const metric = btn.dataset.metric;
+                            pilotChart.data.datasets[0].data = pilotDatasets[metric].data;
+                            pilotChart.data.datasets[0].label = pilotDatasets[metric].label;
+                            pilotChart.update();
+                        });
+                    });
+                    pilotChartInitialized = true;
+                }
+            };
+
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>
