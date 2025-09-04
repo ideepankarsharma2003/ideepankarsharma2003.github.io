@@ -1,437 +1,770 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>XOHOU AI Solutions | Interactive Pitch Deck</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Calm Tech Neutrals (Dark Mode) -->
-    <!-- Application Structure Plan: This SPA is structured as a series of full-screen slides, mimicking a traditional PowerPoint presentation. Each slide is a distinct section. The user navigates sequentially using "Next" and "Previous" buttons, as well as the left and right arrow keys. This linear structure is optimal for presenting a story-driven pitch, ensuring the audience follows the narrative from problem to solution to the final ask. The goal is to provide a downloadable, executable file that functions as a complete presentation. -->
-    <!-- Visualization & Content Choices: 
-        1. Problem -> Text and Unicode Icons -> Goal: Inform -> Interaction: None -> Justification: Simple, clear, and impactful without charts. Method: HTML/Tailwind.
-        2. Solution -> Flowchart with Text/Icons -> Goal: Organize -> Interaction: None -> Justification: Clearly explains the AI's process flow. Method: HTML/Tailwind.
-        3. Market Growth -> Line Chart -> Goal: Show Change -> Interaction: Tooltips on hover -> Justification: Standard visualization for projections. Library: Chart.js.
-        4. Business Model -> Timeline with Text -> Goal: Organize/Inform -> Interaction: None -> Justification: A clean, easy-to-read timeline format. Method: HTML/Tailwind.
-        5. Pilot Metrics -> Bar Chart -> Goal: Compare/Inform -> Interaction: Buttons to toggle between different metrics -> Justification: Demonstrates a data-driven plan and makes the 'Traction' section feel tangible. Library: Chart.js.
-        6. The Ask -> Text and Unicode Icons -> Goal: Inform -> Interaction: None -> Justification: A simple grid layout to list key needs. Method: HTML/Tailwind.
-        All visuals are simple and serve a clear purpose to enhance comprehension without overcomplicating the presentation.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Mark page as JS-enabled early for progressive enhancement -->
+    <script>document.documentElement.classList.add('js');</script>
+
+    <!-- No-JS fallback: show content, hide JS-only chrome -->
+    <noscript>
+        <style>
+            .nav,
+            .dots,
+            .topbar {
+                display: none !important;
+            }
+
+            .slide {
+                height: auto;
+                min-height: 80vh;
+            }
+        </style>
+    </noscript>
+
+    <!-- Tailwind tweaks -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'] },
+                    boxShadow: {
+                        'glow': '0 10px 30px rgba(59,130,246,.25)',
+                        'soft': '0 6px 20px rgba(0,0,0,.35)'
+                    },
+                    backdropBlur: { xs: '2px' },
+                }
+            }
+        }
+    </script>
+
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        /* ===============================
+       Fallback-first slide visibility
+       =============================== */
         .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100vw;
             height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            padding: 2rem;
+            display: grid;
+            place-items: center;
+            padding: clamp(16px, 3vw, 32px);
             text-align: center;
             color: #e5e7eb;
-            background-color: #1f2937;
-            transition: opacity 0.5s ease-in-out;
+            opacity: 1;
+            transform: none;
+            /* visible by default */
         }
+
         .slide-content {
-            max-width: 1000px;
-            width: 100%;
+            width: min(1100px, 96vw);
+            position: relative;
+            z-index: 10;
         }
-        .nav-button {
+
+        /* Only when JS is confirmed, animate + hide until active */
+        .js .slide {
+            transition: opacity .5s ease, transform .5s ease;
+            opacity: 0;
+            transform: translateY(10px) scale(.99);
+        }
+
+        .js .slide.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+
+        /* =========
+       Theme base
+       ========= */
+        :root {
+            color-scheme: dark;
+            --bg-2: #111827;
+            /* gray-900 */
+            --text-1: #e5e7eb;
+            /* gray-200 */
+            --surface: rgba(17, 24, 39, .85);
+            --ring: rgba(96, 165, 250, .35);
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-1);
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated aurora backdrop */
+        .aurora::before,
+        .aurora::after {
+            content: '';
+            position: fixed;
+            inset: -10%;
+            background:
+                radial-gradient(40% 60% at 30% 20%, rgba(96, 165, 250, .15), transparent 60%),
+                radial-gradient(40% 60% at 70% 80%, rgba(147, 197, 253, .12), transparent 60%),
+                radial-gradient(35% 55% at 80% 25%, rgba(16, 185, 129, .12), transparent 60%);
+            filter: blur(40px);
+            opacity: .8;
+            pointer-events: none;
+            animation: drift 26s linear infinite;
+            z-index: 1;
+        }
+
+        .aurora::after {
+            animation-duration: 38s;
+            mix-blend-mode: screen;
+            opacity: .6;
+            z-index: 2;
+        }
+
+        @keyframes drift {
+            0% {
+                transform: translate3d(0, 0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate3d(2%, -1%, 0) scale(1.03);
+            }
+
+            100% {
+                transform: translate3d(0, 0, 0) scale(1);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .aurora::before,
+            .aurora::after {
+                animation: none;
+            }
+        }
+
+        /* Surface card styling */
+        .slide-content {
+            background: var(--surface);
+            border: 1px solid rgba(148, 163, 184, .12);
+            box-shadow: var(--ring) 0 0 0 1px, var(--ring) 0 10px 30px -10px, var(--ring) 0 30px 60px -30px, var(--bg-2) 0 10px 50px inset;
+            border-radius: 20px;
+            padding: clamp(20px, 5vw, 44px);
+            backdrop-filter: blur(8px);
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .4rem .8rem;
+            border-radius: 9999px;
+            background: rgba(59, 130, 246, .12);
+            border: 1px solid rgba(59, 130, 246, .25);
+            color: #bfdbfe;
+            font-weight: 600;
+            font-size: .8rem;
+            letter-spacing: .02em;
+            text-transform: uppercase;
+        }
+
+        /* Topbar */
+        .topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            gap: .8rem;
+            padding: .75rem 1rem;
+            background: linear-gradient(to bottom, rgba(15, 23, 42, .8), rgba(15, 23, 42, 0));
+            backdrop-filter: blur(4px);
+            z-index: 50;
+        }
+
+        .progress {
+            flex: 1;
+            height: 6px;
+            background: rgba(148, 163, 184, .18);
+            border-radius: 9999px;
+            overflow: hidden;
+            outline: 1px solid rgba(148, 163, 184, .18);
+        }
+
+        .progress>i {
+            display: block;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa, #34d399);
+            box-shadow: inset 0 0 16px rgba(96, 165, 250, .35);
+        }
+
+        /* Dots */
+        .dots {
+            position: fixed;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            padding: .25rem .5rem;
+            border-radius: 9999px;
+            background: rgba(2, 6, 23, .55);
+            border: 1px solid rgba(148, 163, 184, .16);
+            backdrop-filter: blur(6px);
+            box-shadow: var(--ring) 0 0 0 1px, 0 8px 24px rgba(0, 0, 0, .35);
+            z-index: 40;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 9999px;
+            background: rgba(203, 213, 225, .35);
+            transition: transform .2s, background .2s;
+        }
+
+        .dot.active {
+            background: #60a5fa;
+            transform: scale(1.35);
+        }
+
+        /* Nav buttons */
+        .nav {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 40;
+        }
+
+        .nav-btn {
+            pointer-events: auto;
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            z-index: 10;
-            background-color: #3B82F6;
-            color: white;
-            padding: 1rem;
+            background: rgba(15, 23, 42, .7);
+            border: 1px solid rgba(148, 163, 184, .2);
+            backdrop-filter: blur(6px);
+            color: #e5e7eb;
+            padding: .9rem 1.1rem;
             border-radius: 9999px;
-            opacity: 0.8;
-            transition: opacity 0.3s, transform 0.3s;
+            box-shadow: var(--ring) 0 0 0 1px, 0 8px 24px rgba(0, 0, 0, .35);
+            transition: transform .2s, box-shadow .2s;
+            user-select: none;
         }
-        .nav-button:hover {
-            opacity: 1;
+
+        .nav-btn:hover {
             transform: translateY(-50%) scale(1.05);
+            box-shadow: 0 12px 30px rgba(59, 130, 246, .25);
         }
-        #prev-btn { left: 2rem; }
-        #next-btn { right: 2rem; }
+
+        .nav-btn:active {
+            transform: translateY(-50%) scale(.98);
+        }
+
+        .nav-left {
+            left: 1.2rem;
+        }
+
+        .nav-right {
+            right: 1.2rem;
+        }
+
+        /* Cards & charts */
+        .card {
+            background: rgba(2, 6, 23, .55);
+            border: 1px solid rgba(148, 163, 184, .14);
+            border-radius: 16px;
+            padding: 1.25rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+        }
+
+        .chart-wrap {
+            height: 360px;
+            width: 100%;
+            background: rgba(2, 6, 23, .6);
+            border: 1px solid rgba(148, 163, 184, .14);
+            border-radius: 16px;
+            padding: 12px;
+            box-shadow: inset 0 0 0 1px rgba(96, 165, 250, .15), 0 10px 30px rgba(0, 0, 0, .35);
+        }
+
+        .hide {
+            display: none !important;
+        }
+
+        /* --- Visibility + stacking hardening --- */
+        #slides-container {
+            position: relative;
+            z-index: 5;
+            height: 100vh;
+        }
+
+        .slide.active {
+            z-index: 10;
+        }
     </style>
 </head>
-<body class="overflow-hidden">
+
+<body class="aurora">
+
+    <!-- Top controls -->
+    <div class="topbar">
+        <span class="pill">XOHOU • pitch</span>
+        <div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+        <div class="flex items-center gap-2 text-sm">
+            <button id="fsBtn"
+                class="px-3 py-1.5 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition">⤢
+                Fullscreen</button>
+            <button id="linkBtn"
+                class="px-3 py-1.5 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition">🔗 Copy
+                link</button>
+            <span id="counter" class="ml-1 text-gray-300 tabular-nums"></span>
+        </div>
+    </div>
 
     <!-- Slides -->
-    <div id="slides-container" class="relative">
-        <!-- Slide 1: Title -->
-        <section class="slide" data-slide="0">
+    <div id="slides-container">
+
+        <!-- Slide 0: Title -->
+        <section class="slide active" data-slide="0" aria-live="polite">
             <div class="slide-content">
-                <h1 class="text-5xl md:text-7xl font-bold text-gray-100">XOHOU <span class="text-blue-400">AI</span> Solutions</h1>
-                <p class="mt-4 text-xl md:text-3xl text-gray-300 font-semibold">A.I. Voice & Chat Agents for Frustration-Free Support</p>
-                <div class="mt-12 text-lg md:text-xl text-gray-400 font-medium">
-                    <p>Presented by:</p>
-                    <p class="mt-2 text-gray-300">Khushi Papola (CEO) & Deepankar Sharma (CTO)</p>
+                <div class="mx-auto max-w-3xl">
+                    <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight">
+                        <span class="text-gray-100">XOHOU <span
+                                class="text-transparent bg-clip-text bg-gradient-to-tr from-blue-400 via-blue-300 to-emerald-300">AI</span>
+                            Solutions</span>
+                    </h1>
+                    <p class="mt-5 text-xl md:text-2xl text-gray-300/95">A.I. Voice & Chat Agents for Frustration-Free
+                        Support</p>
+                    <div class="mt-10 text-lg text-gray-300/90">
+                        <p>Presented by</p>
+                        <p class="mt-2 font-semibold text-gray-100">Kuldeep Sharma (CEO) • Deepankar Sharma (CTO)</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Slide 2: Problem -->
-        <section class="slide hidden" data-slide="1">
+        <!-- Slide 1: Problem -->
+        <section class="slide" data-slide="1">
             <div class="slide-content">
-                <h2 class="text-3xl md:text-5xl font-bold text-gray-100">The Bottleneck in Education & SMEs</h2>
-                <div class="mt-12 grid md:grid-cols-3 gap-8">
-                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
-                        <div class="text-5xl mb-4">😟</div>
+                <h2 class="text-3xl md:text-5xl font-bold">The Bottleneck in Education & SMEs</h2>
+                <div class="mt-10 grid md:grid-cols-3 gap-6">
+                    <div class="card hover:shadow-glow transition">
+                        <div class="text-5xl mb-3">😟</div>
                         <h3 class="text-xl font-semibold mb-2">Student Frustration</h3>
                         <p class="text-gray-400">Students face delays, confusion, and frustration.</p>
                     </div>
-                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
-                        <div class="text-5xl mb-4">🥵</div>
+                    <div class="card hover:shadow-glow transition">
+                        <div class="text-5xl mb-3">🥵</div>
                         <h3 class="text-xl font-semibold mb-2">Administrative Overload</h3>
                         <p class="text-gray-400">Admin staff are overwhelmed and overworked.</p>
                     </div>
-                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
-                        <div class="text-5xl mb-4">⏳</div>
+                    <div class="card hover:shadow-glow transition">
+                        <div class="text-5xl mb-3">⏳</div>
                         <h3 class="text-xl font-semibold mb-2">System Inefficiency</h3>
-                        <p class="text-gray-400">Helplines are major bottlenecks, especially during peak loads.</p>
+                        <p class="text-gray-400">Helplines bottleneck during peak loads.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Slide 3: Solution -->
-        <section class="slide hidden" data-slide="2">
+        <!-- Slide 2: Solution -->
+        <section class="slide" data-slide="2">
             <div class="slide-content">
-                <h2 class="text-3xl md:text-5xl font-bold text-gray-100">An Intelligent, Scalable Solution</h2>
-                <div class="mt-12 flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-8">
-                    <div class="p-4 text-center">
+                <h2 class="text-3xl md:text-5xl font-bold">An Intelligent, Scalable Solution</h2>
+                <div class="mt-10 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8">
+                    <div class="card">
                         <div class="text-4xl">🧑‍🎓</div>
-                        <p class="mt-2 font-semibold text-gray-300">User Query</p>
+                        <p class="mt-2 font-semibold">User Query</p>
                     </div>
-                    <div class="text-4xl text-gray-400">→</div>
-                    <div class="bg-blue-800 p-6 rounded-lg text-center shadow-inner">
+                    <div class="text-4xl text-gray-400 select-none">→</div>
+                    <div class="card bg-blue-900/40 border-blue-300/20">
                         <h3 class="text-2xl font-bold text-blue-300">XOHOU AI Agent</h3>
-                        <ul class="mt-4 list-none space-y-2 text-left text-gray-200">
+                        <ul class="mt-4 text-left space-y-2 text-gray-200">
                             <li>✔️ Handles high volume of queries</li>
                             <li>✔️ Troubleshoots basic issues</li>
-                            <li>✔️ Instantly scales to meet demand</li>
+                            <li>✔️ Instantly scales to demand</li>
                         </ul>
                     </div>
-                    <div class="text-4xl text-gray-400">→</div>
-                    <div class="flex flex-col space-y-4">
-                        <div class="bg-green-600 text-white rounded-full w-24 h-24 flex items-center justify-center mx-auto text-sm font-semibold text-center">Query Resolved</div>
-                        <div class="bg-yellow-600 text-white rounded-full w-24 h-24 flex items-center justify-center mx-auto text-sm font-semibold text-center">Escalate to Human</div>
+                    <div class="text-4xl text-gray-400 select-none">→</div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="card bg-emerald-700/40 border-emerald-300/20 text-white font-semibold">Query
+                            Resolved</div>
+                        <div class="card bg-yellow-700/40 border-yellow-300/20 text-white font-semibold">Escalate to
+                            Human</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Slide 4: Market Opportunity -->
-        <section class="slide hidden" data-slide="3">
+        <!-- Slide 3: Market -->
+        <section class="slide" data-slide="3">
             <div class="slide-content">
-                <h2 class="text-3xl md:text-5xl font-bold text-gray-100">Why Now? The Perfect Storm for AI</h2>
-                <div class="mt-12 grid md:grid-cols-2 items-center gap-12">
+                <h2 class="text-3xl md:text-5xl font-bold">Why Now? The Perfect Storm for AI</h2>
+                <div class="mt-10 grid md:grid-cols-2 gap-8 items-center">
                     <div class="text-left space-y-4">
-                        <p class="text-lg text-gray-400">The time is right for an AI solution. We are at a unique intersection of accelerating Gen AI adoption and rising demand for digital-first support.</p>
-                        <ul class="list-disc list-inside space-y-2 text-lg text-gray-300">
+                        <p class="text-lg text-gray-300/90">We're at the intersection of accelerating GenAI adoption and
+                            relentless demand for digital-first support.</p>
+                        <ul class="list-disc list-inside text-lg text-gray-200 space-y-2">
                             <li>Accelerating adoption of Gen AI</li>
                             <li>Demand for 24/7 digital-first support</li>
-                            <li>Institutions are looking to reduce costs</li>
+                            <li>Institutions seeking cost reduction</li>
                         </ul>
                     </div>
-                    <div class="chart-container bg-gray-900 p-4 rounded-lg">
-                        <canvas id="marketChart"></canvas>
-                    </div>
+                    <div class="chart-wrap"><canvas id="marketChart"></canvas></div>
                 </div>
             </div>
         </section>
-        
-        <!-- Slide 5: Business Model -->
-        <section class="slide hidden" data-slide="4">
+
+        <!-- Slide 4: Business Model -->
+        <section class="slide" data-slide="4">
             <div class="slide-content">
-                <h2 class="text-3xl md:text-5xl font-bold text-gray-100">Our Business Model: A Phased Approach</h2>
-                <div class="mt-12 flex flex-col items-center">
-                    <div class="grid md:grid-cols-3 gap-8 w-full max-w-4xl">
-                        <div class="bg-gray-800 p-6 rounded-lg shadow-lg text-center">
-                            <h3 class="text-xl font-bold text-blue-400">Phase I</h3>
-                            <p class="text-gray-400">Pilot in one college (e.g., Graphic Era University) for exam support.</p>
-                        </div>
-                        <div class="bg-gray-800 p-6 rounded-lg shadow-lg text-center">
-                            <h3 class="text-xl font-bold text-blue-400">Phase II</h3>
-                            <p class="text-gray-400">Expand with a SaaS subscription model to other universities.</p>
-                        </div>
-                        <div class="bg-gray-800 p-6 rounded-lg shadow-lg text-center">
-                            <h3 class="text-xl font-bold text-blue-400">Phase III</h3>
-                            <p class="text-gray-400">Diversify into SMEs with "AI receptionist" packages.</p>
-                        </div>
+                <h2 class="text-3xl md:text-5xl font-bold">Our Business Model: A Phased Approach</h2>
+                <div class="mt-10 grid md:grid-cols-3 gap-6">
+                    <div class="card hover:shadow-glow transition">
+                        <h3 class="text-xl font-bold text-blue-300">Phase I</h3>
+                        <p class="text-gray-400 mt-2">
+                            Pilot within the University of Delhi (starting with select colleges) for exam & student
+                            support.
+                        </p>
+                    </div>
+                    <div class="card hover:shadow-glow transition">
+                        <h3 class="text-xl font-bold text-blue-300">Phase II</h3>
+                        <p class="text-gray-400 mt-2">Expand with a SaaS subscription model to other universities.</p>
+                    </div>
+                    <div class="card hover:shadow-glow transition">
+                        <h3 class="text-xl font-bold text-blue-300">Phase III</h3>
+                        <p class="text-gray-400 mt-2">Diversify into SMEs with "AI receptionist" packages.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Slide 6: Pilot Plan -->
-        <section class="slide hidden" data-slide="5">
+        <!-- Slide 5: Pilot Plan -->
+        <section class="slide" data-slide="5">
             <div class="slide-content">
-                <h2 class="text-3xl md:text-5xl font-bold text-gray-100">Focused Pilot at Graphic Era University</h2>
-                <p class="mt-4 text-lg text-gray-400">We will measure our success through key metrics. Toggle below to see our projected impact.</p>
-                <div class="mt-8 space-x-4">
-                    <button data-metric="resolution" class="metric-btn bg-blue-500 text-white py-2 px-5 rounded-full font-semibold">Query Resolution Rate</button>
-                    <button data-metric="response" class="metric-btn bg-gray-700 text-gray-200 border border-gray-600 py-2 px-5 rounded-full font-semibold">Avg. Response Time</button>
-                    <button data-metric="satisfaction" class="metric-btn bg-gray-700 text-gray-200 border border-gray-600 py-2 px-5 rounded-full font-semibold">Student Satisfaction</button>
+                <h2 class="text-3xl md:text-5xl font-bold">Focused Pilot at the University of Delhi</h2>
+                <p class="mt-3 text-lg text-gray-300/90">Measure success via key metrics. Toggle to compare projections.
+                </p>
+                <div class="mt-6 flex flex-wrap gap-3 justify-center">
+                    <button data-metric="resolution"
+                        class="metric-btn px-4 py-2 rounded-full bg-blue-500 text-white font-semibold shadow-soft">Query
+                        Resolution Rate</button>
+                    <button data-metric="response"
+                        class="metric-btn px-4 py-2 rounded-full bg-white/10 text-gray-200 border border-white/20">Avg.
+                        Response Time</button>
+                    <button data-metric="satisfaction"
+                        class="metric-btn px-4 py-2 rounded-full bg-white/10 text-gray-200 border border-white/20">Student
+                        Satisfaction</button>
                 </div>
-                <div class="chart-container mt-8 bg-gray-900 p-4 rounded-lg">
-                    <canvas id="pilotChart"></canvas>
-                </div>
+                <div class="chart-wrap mt-6"><canvas id="pilotChart"></canvas></div>
             </div>
         </section>
-        
-        <!-- Slide 7: Team -->
-        <section class="slide hidden" data-slide="6">
+
+        <!-- Slide 6: Team -->
+        <section class="slide" data-slide="6">
             <div class="slide-content">
-                <h2 class="text-3xl md:text-5xl font-bold text-gray-100">The Visionaries Behind XOHOU</h2>
-                <div class="mt-12 grid md:grid-cols-2 gap-8">
-                    <div class="bg-gray-800 p-8 rounded-lg shadow-lg text-center">
-                        <div class="w-24 h-24 rounded-full bg-blue-700 text-blue-200 mx-auto flex items-center justify-center text-3xl font-bold mb-4">KP</div>
-                        <h3 class="text-xl font-bold text-gray-200">Khushi Papola</h3>
-                        <p class="text-blue-400 font-semibold">CEO & Co-founder</p>
-                        <p class="mt-2 text-gray-400">MBA 2026, Graphic Era University. Leads strategy and business development.</p>
+                <h2 class="text-3xl md:text-5xl font-bold">The Visionaries Behind XOHOU</h2>
+                <div class="mt-10 grid md:grid-cols-2 gap-6">
+                    <div class="card text-center">
+                        <div class="w-24 h-24 rounded-full mx-auto grid place-items-center text-3xl font-bold mb-4"
+                            style="background:linear-gradient(135deg,#1d4ed8,transparent); color:#c7d2fe;">KS</div>
+                        <h3 class="text-xl font-bold">Kuldeep Sharma</h3>
+                        <p class="text-blue-300 font-semibold">CEO & Co-founder</p>
+                        <p class="mt-2 text-gray-400">B.A. (Hons.) Business Economics, University of Delhi (2026).
+                            Two-time best performer of the month.</p>
                     </div>
-                    <div class="bg-gray-800 p-8 rounded-lg shadow-lg text-center">
-                        <div class="w-24 h-24 rounded-full bg-blue-700 text-blue-200 mx-auto flex items-center justify-center text-3xl font-bold mb-4">DS</div>
-                        <h3 class="text-xl font-bold text-gray-200">Deepankar Sharma</h3>
-                        <p class="text-blue-400 font-semibold">CTO & Co-founder</p>
-                        <p class="mt-2 text-gray-400">Tech architect with deep AI/ML expertise and a focus on scalable systems.</p>
+                    <div class="card text-center">
+                        <div class="w-24 h-24 rounded-full mx-auto grid place-items-center text-3xl font-bold mb-4"
+                            style="background:linear-gradient(135deg,#2563eb,transparent); color:#c7d2fe;">DS</div>
+                        <h3 class="text-xl font-bold">Deepankar Sharma</h3>
+                        <p class="text-blue-300 font-semibold">CTO & Co-founder</p>
+                        <p class="mt-2 text-gray-400">Tech architect with deep AI/ML expertise and a focus on scalable
+                            systems.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Slide 8: The Ask -->
-        <section class="slide hidden" data-slide="7">
+        <!-- Slide 7: The Ask -->
+        <section class="slide" data-slide="7">
             <div class="slide-content">
-                <h2 class="text-3xl md:text-5xl font-bold text-gray-100">Join Us in Building the Future of Support</h2>
-                <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <div class="bg-blue-700 text-white p-6 rounded-lg text-left">
+                <h2 class="text-3xl md:text-5xl font-bold">Join Us in Building the Future of Support</h2>
+                <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
+                    <div class="card bg-gradient-to-br from-blue-700/60 to-blue-600/40 text-white">
                         <div class="text-4xl mb-2">🤝</div>
                         <h3 class="text-xl font-semibold mb-1">Incubation & Mentorship</h3>
-                        <p class="opacity-80">Guidance on selling to large institutions.</p>
+                        <p class="opacity-90">Access to University of Delhi innovation cells, mentors, and admin
+                            champions.</p>
                     </div>
-                    <div class="bg-blue-700 text-white p-6 rounded-lg text-left">
+                    <div class="card bg-gradient-to-br from-blue-700/60 to-blue-600/40 text-white">
                         <div class="text-4xl mb-2">☁️</div>
                         <h3 class="text-xl font-semibold mb-1">Infrastructure Support</h3>
-                        <p class="opacity-80">Cloud credits, workspace, and student dev teams.</p>
+                        <p class="opacity-90">Cloud credits, workspace, and student dev teams.</p>
                     </div>
-                    <div class="bg-blue-700 text-white p-6 rounded-lg text-left">
+                    <div class="card bg-gradient-to-br from-blue-700/60 to-blue-600/40 text-white">
                         <div class="text-4xl mb-2">🌐</div>
                         <h3 class="text-xl font-semibold mb-1">Strategic Connections</h3>
-                        <p class="opacity-80">Intros to university administrators and tech heads.</p>
+                        <p class="opacity-90">Intros to university administrators and tech heads.</p>
                     </div>
-                    <div class="bg-blue-700 text-white p-6 rounded-lg text-left">
+                    <div class="card bg-gradient-to-br from-blue-700/60 to-blue-600/40 text-white">
                         <div class="text-4xl mb-2">💰</div>
                         <h3 class="text-xl font-semibold mb-1">Seed Funding</h3>
-                        <p class="opacity-80">Capital to launch and validate the pilot.</p>
+                        <p class="opacity-90">Capital to launch and validate the pilot.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Slide 9: Thank You -->
-        <section class="slide hidden" data-slide="8">
-             <div class="slide-content">
-                <h2 class="text-3xl md:text-5xl font-bold text-gray-100">Thank You</h2>
-                <div class="mt-12 text-lg md:text-xl text-gray-400">
+        <!-- Slide 8: Thank You -->
+        <section class="slide" data-slide="8">
+            <div class="slide-content">
+                <h2 class="text-3xl md:text-5xl font-bold">Thank You</h2>
+                <div class="mt-8 text-lg md:text-xl text-gray-300">
                     <p>For more information, please visit:</p>
                     <p class="mt-4 font-semibold">
-                        <a href="https://ideepankarsharma2003.github.io/" class="text-blue-400 hover:underline">Deepankar Sharma Portfolio</a>
+                        <a href="https://ideepankarsharma2003.github.io/"
+                            class="text-blue-300 underline decoration-blue-500/40 hover:decoration-blue-300">Deepankar
+                            Sharma Portfolio</a>
                     </p>
                 </div>
             </div>
         </section>
+
     </div>
 
-    <!-- Navigation Buttons -->
-    <button id="prev-btn" class="nav-button hidden">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
-    </button>
-    <button id="next-btn" class="nav-button">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-    </button>
+    <!-- Navigation -->
+    <div class="nav">
+        <button id="prev-btn" class="nav-btn nav-left" aria-label="Previous slide">←</button>
+        <button id="next-btn" class="nav-btn nav-right" aria-label="Next slide">→</button>
+    </div>
+
+    <!-- Slide dots -->
+    <div id="dots" class="dots" aria-label="Slide navigation"></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             let currentSlide = 0;
-            const slides = document.querySelectorAll('.slide');
+            const slides = Array.from(document.querySelectorAll('.slide'));
             const prevBtn = document.getElementById('prev-btn');
             const nextBtn = document.getElementById('next-btn');
-            
-            const showSlide = (index) => {
-                slides.forEach((slide, i) => {
-                    slide.classList.add('hidden');
-                    slide.style.opacity = '0';
-                    if (i === index) {
-                        slide.classList.remove('hidden');
-                        setTimeout(() => slide.style.opacity = '1', 50);
-                    }
+            const dotsWrap = document.getElementById('dots');
+            const progressEl = document.getElementById('progressBar');
+            const counter = document.getElementById('counter');
+            const fsBtn = document.getElementById('fsBtn');
+            const linkBtn = document.getElementById('linkBtn');
+
+            // Dots
+            slides.forEach((_, i) => {
+                const d = document.createElement('button');
+                d.className = 'dot' + (i === 0 ? ' active' : '');
+                d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+                d.addEventListener('click', () => goToSlide(i));
+                dotsWrap.appendChild(d);
+            });
+
+            const updateUI = () => {
+                slides.forEach((s, i) => s.classList.toggle('active', i === currentSlide));
+                prevBtn.classList.toggle('hide', currentSlide === 0);
+                nextBtn.classList.toggle('hide', currentSlide === slides.length - 1);
+
+                // Dots
+                dotsWrap.querySelectorAll('.dot').forEach((dot, i) => {
+                    dot.classList.toggle('active', i === currentSlide);
                 });
-                
-                prevBtn.classList.toggle('hidden', index === 0);
-                nextBtn.classList.toggle('hidden', index === slides.length - 1);
 
-                if (index === 3) {
-                    initMarketChart();
-                } else if (index === 5) {
-                    initPilotChart();
-                }
+                // Progress + counter
+                const pct = ((currentSlide + 1) / slides.length) * 100;
+                progressEl.style.width = pct + '%';
+                counter.textContent = `${currentSlide + 1} / ${slides.length}`;
+
+                // Deep link
+                history.replaceState(null, '', `#slide-${currentSlide}`);
+
+                // Chart inits
+                if (currentSlide === 3) initMarketChart();
+                if (currentSlide === 5) initPilotChart();
             };
 
-            const nextSlide = () => {
-                if (currentSlide < slides.length - 1) {
-                    currentSlide++;
-                    showSlide(currentSlide);
-                }
+            const goToSlide = (index) => {
+                currentSlide = Math.max(0, Math.min(slides.length - 1, index));
+                updateUI();
             };
+            const nextSlide = () => goToSlide(currentSlide + 1);
+            const prevSlide = () => goToSlide(currentSlide - 1);
 
-            const prevSlide = () => {
-                if (currentSlide > 0) {
-                    currentSlide--;
-                    showSlide(currentSlide);
-                }
-            };
-
+            // Buttons
             nextBtn.addEventListener('click', nextSlide);
             prevBtn.addEventListener('click', prevSlide);
 
+            // Keyboard
             document.addEventListener('keyup', (e) => {
-                if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
-                    nextSlide();
-                } else if (e.key === 'ArrowLeft') {
-                    prevSlide();
+                const tag = (e.target.tagName || '').toLowerCase();
+                if (tag === 'input' || tag === 'textarea') return;
+                if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') nextSlide();
+                else if (e.key === 'ArrowLeft' || e.key === 'Backspace') prevSlide();
+                else if ((e.key === 'f' || e.key === 'F')) toggleFullscreen();
+            });
+
+            // Touch swipe
+            let touchStartX = 0, touchEndX = 0;
+            document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+            document.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                const dx = touchEndX - touchStartX;
+                if (Math.abs(dx) > 50) (dx < 0 ? nextSlide() : prevSlide());
+            }, { passive: true });
+
+            // Deep link on load
+            const deep = location.hash.match(/slide-(\d+)/);
+            if (deep) currentSlide = Math.min(slides.length - 1, Math.max(0, parseInt(deep[1], 10)));
+
+            // Controls
+            function toggleFullscreen() {
+                if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+                else document.exitFullscreen?.();
+            }
+            fsBtn.addEventListener('click', toggleFullscreen);
+
+            linkBtn.addEventListener('click', async () => {
+                const url = `${location.origin}${location.pathname}#slide-${currentSlide}`;
+                try {
+                    await navigator.clipboard.writeText(url);
+                    linkBtn.textContent = '✅ Copied';
+                    setTimeout(() => linkBtn.textContent = '🔗 Copy link', 1200);
+                } catch {
+                    prompt('Copy link:', url);
                 }
             });
 
-            // Chart Data and Initialization
-            let marketChartInitialized = false;
-            let pilotChartInitialized = false;
-
-            const marketData = {
-                labels: ['2023', '2024', '2025', '2026', '2027', '2028'],
-                datasets: [{
-                    label: 'Market Size ($ Billions)',
-                    data: [15.8, 20.3, 26.1, 33.5, 43.0, 55.2],
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                    borderColor: '#3B82F6',
-                    tension: 0.4,
-                    fill: true,
-                }]
-            };
-
-            const pilotDatasets = {
-                resolution: {
-                    label: 'Query Resolution Rate (%)',
-                    data: [25, 85],
-                    backgroundColor: ['#4B5563', '#3B82F6']
-                },
-                response: {
-                    label: 'Average Response Time (Minutes)',
-                    data: [15, 0.5],
-                    backgroundColor: ['#4B5563', '#3B82F6']
-                },
-                satisfaction: {
-                    label: 'Student Satisfaction (%)',
-                    data: [60, 92],
-                    backgroundColor: ['#4B5563', '#3B82F6']
-                }
-            };
-            
-            const initMarketChart = () => {
-                if (!marketChartInitialized) {
-                    const ctx = document.getElementById('marketChart').getContext('2d');
-                    new Chart(ctx, {
-                        type: 'line',
-                        data: marketData,
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                                    ticks: { color: '#e5e7eb' }
-                                },
-                                x: {
-                                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                                    ticks: { color: '#e5e7eb' }
-                                }
-                            },
-                            plugins: {
-                                legend: { display: false },
-                                tooltip: { bodyColor: '#e5e7eb', titleColor: '#e5e7eb' }
+            // Charts
+            let marketChart, pilotChart;
+            function gradient(ctx, a, b, c) {
+                const g = ctx.createLinearGradient(0, 0, 0, 360);
+                g.addColorStop(0, a); g.addColorStop(.5, b); g.addColorStop(1, c);
+                return g;
+            }
+            function initMarketChart() {
+                if (marketChart) return;
+                const canvas = document.getElementById('marketChart');
+                const ctx = canvas.getContext('2d');
+                const lineGrad = ctx.createLinearGradient(0, 0, 0, 360);
+                lineGrad.addColorStop(0, '#93c5fd'); lineGrad.addColorStop(1, '#3b82f6');
+                const fillGrad = gradient(ctx, 'rgba(96,165,250,.35)', 'rgba(59,130,246,.18)', 'rgba(59,130,246,0)');
+                marketChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['2023', '2024', '2025', '2026', '2027', '2028'],
+                        datasets: [{
+                            label: 'Market Size ($ Billions)',
+                            data: [15.8, 20.3, 26.1, 33.5, 43.0, 55.2],
+                            borderColor: lineGrad, backgroundColor: fillGrad, tension: .35, fill: true,
+                            pointRadius: 3, pointHoverRadius: 5,
+                        }]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }, tooltip: {
+                                backgroundColor: 'rgba(2,6,23,.9)', borderColor: 'rgba(148,163,184,.25)', borderWidth: 1,
+                                titleColor: '#e5e7eb', bodyColor: '#e5e7eb'
                             }
-                        }
-                    });
-                    marketChartInitialized = true;
-                }
-            };
-
-            const initPilotChart = () => {
-                if (!pilotChartInitialized) {
-                    const ctx = document.getElementById('pilotChart').getContext('2d');
-                    const pilotChart = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: ['Without AI', 'With XOHOU AI (Projected)'],
-                            datasets: [{
-                                label: pilotDatasets.resolution.label,
-                                data: pilotDatasets.resolution.data,
-                                backgroundColor: pilotDatasets.resolution.backgroundColor
-                            }]
                         },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                                    ticks: { color: '#e5e7eb' }
-                                },
-                                x: {
-                                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                                    ticks: { color: '#e5e7eb' }
-                                }
-                            },
-                            plugins: {
-                                legend: { display: false },
-                                tooltip: { bodyColor: '#e5e7eb', titleColor: '#e5e7eb' }
-                            }
+                        scales: {
+                            y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,.08)' }, ticks: { color: '#e5e7eb' } },
+                            x: { grid: { color: 'rgba(255,255,255,.06)' }, ticks: { color: '#e5e7eb' } }
                         }
-                    });
-                    
-                    document.querySelectorAll('.metric-btn').forEach(btn => {
-                        btn.addEventListener('click', () => {
-                            document.querySelectorAll('.metric-btn').forEach(b => {
-                                b.classList.remove('bg-blue-500', 'text-white');
-                                b.classList.add('bg-gray-700', 'text-gray-200', 'border', 'border-gray-600');
-                            });
-                            btn.classList.remove('bg-gray-700', 'text-gray-200', 'border', 'border-gray-600');
-                            btn.classList.add('bg-blue-500', 'text-white');
-                            const metric = btn.dataset.metric;
-                            pilotChart.data.datasets[0].data = pilotDatasets[metric].data;
-                            pilotChart.data.datasets[0].label = pilotDatasets[metric].label;
-                            pilotChart.update();
+                    }
+                });
+            }
+            function initPilotChart() {
+                if (pilotChart) return;
+                const canvas = document.getElementById('pilotChart');
+                const ctx = canvas.getContext('2d');
+                const baseData = {
+                    resolution: { label: 'Query Resolution Rate (%)', data: [25, 85] },
+                    response: { label: 'Average Response Time (Minutes)', data: [15, 0.5] },
+                    satisfaction: { label: 'Student Satisfaction (%)', data: [60, 92] }
+                };
+                const barGradA = gradient(ctx, 'rgba(203,213,225,.9)', 'rgba(148,163,184,.8)', 'rgba(100,116,139,.9)');
+                const barGradB = gradient(ctx, 'rgba(96,165,250,1)', 'rgba(59,130,246,.9)', 'rgba(37,99,235,.95)');
+                pilotChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Without AI', 'With XOHOU AI (Projected)'],
+                        datasets: [{ label: baseData.resolution.label, data: baseData.resolution.data, backgroundColor: [barGradA, barGradB], borderRadius: 10 }]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }, tooltip: {
+                                backgroundColor: 'rgba(2,6,23,.9)', borderColor: 'rgba(148,163,184,.25)', borderWidth: 1,
+                                titleColor: '#e5e7eb', bodyColor: '#e5e7eb'
+                            }
+                        },
+                        scales: {
+                            y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,.08)' }, ticks: { color: '#e5e7eb' } },
+                            x: { grid: { color: 'rgba(255,255,255,.06)' }, ticks: { color: '#e5e7eb' } }
+                        }
+                    }
+                });
+                // Toggle buttons
+                document.querySelectorAll('.metric-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.metric-btn').forEach(b => {
+                            b.classList.remove('bg-blue-500', 'text-white', 'shadow-soft');
+                            b.classList.add('bg-white/10', 'text-gray-200', 'border', 'border-white/20');
                         });
-                    });
-                    pilotChartInitialized = true;
-                }
-            };
+                        btn.classList.add('bg-blue-500', 'text-white', 'shadow-soft');
+                        btn.classList.remove('bg-white/10', 'border', 'border-white/20');
 
-            showSlide(currentSlide);
+                        const metric = btn.dataset.metric;
+                        pilotChart.data.datasets[0].data = baseData[metric].data;
+                        pilotChart.data.datasets[0].label = baseData[metric].label;
+                        pilotChart.update();
+                    });
+                });
+            }
+
+            // Initial render
+            updateUI();
+
+            // Click to navigate (outside chrome)
+            document.body.addEventListener('click', (e) => {
+                const withinControls = e.target.closest('.nav') || e.target.closest('.topbar') || e.target.closest('.dots') || e.target.closest('.metric-btn') || e.target.closest('.chart-wrap');
+                if (withinControls) return;
+                (e.clientX > window.innerWidth / 2) ? nextSlide() : prevSlide();
+            });
+
+            // Resize = keep charts crisp
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    if (marketChart) marketChart.resize();
+                    if (pilotChart) pilotChart.resize();
+                }, 120);
+            });
         });
     </script>
 </body>
+
 </html>
