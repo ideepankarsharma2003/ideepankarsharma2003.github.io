@@ -1,770 +1,559 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>XOHOU AI Solutions | Interactive Pitch Deck</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>XOHOU AI Solutions | Interactive Pitch Deck</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Favicon = your logo -->
+  <link rel="icon" href="assets/img/xohou/logo.png" sizes="32x32" type="image/png" />
 
-    <!-- Mark page as JS-enabled early for progressive enhancement -->
-    <script>document.documentElement.classList.add('js');</script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- No-JS fallback: show content, hide JS-only chrome -->
-    <noscript>
-        <style>
-            .nav,
-            .dots,
-            .topbar {
-                display: none !important;
-            }
+  <script>document.documentElement.classList.add('js');</script>
 
-            .slide {
-                height: auto;
-                min-height: 80vh;
-            }
-        </style>
-    </noscript>
+  <noscript>
+    <style>.nav,.dots,.topbar{display:none!important}.slide{height:auto;min-height:80vh}</style>
+  </noscript>
 
-    <!-- Tailwind tweaks -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'] },
-                    boxShadow: {
-                        'glow': '0 10px 30px rgba(59,130,246,.25)',
-                        'soft': '0 6px 20px rgba(0,0,0,.35)'
-                    },
-                    backdropBlur: { xs: '2px' },
-                }
-            }
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter','ui-sans-serif','system-ui'] },
+          boxShadow: {
+            'glow': '0 10px 30px rgba(59,130,246,.25)',
+            'soft': '0 6px 20px rgba(0,0,0,.35)'
+          },
+          backdropBlur: { xs: '2px' }
         }
-    </script>
+      }
+    }
+  </script>
 
-    <style>
-        /* ===============================
-       Fallback-first slide visibility
-       =============================== */
-        .slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            display: grid;
-            place-items: center;
-            padding: clamp(16px, 3vw, 32px);
-            text-align: center;
-            color: #e5e7eb;
-            opacity: 1;
-            transform: none;
-            /* visible by default */
-        }
+  <style>
+    :root{
+      color-scheme:dark;
+      --bg-1:#0b1220; --bg-2:#111827; --text-1:#e5e7eb; --text-2:#a9b1c3;
+      --surface:rgba(12,18,32,.78); --ring:rgba(96,165,250,.35);
+      --brand-1:#60a5fa; --brand-2:#34d399; --brand-3:#93c5fd;
+    }
+    html,body{height:100%}
+    body{
+      margin:0; font-family:'Inter',sans-serif; color:var(--text-1);
+      background: radial-gradient(1200px 800px at 10% 10%, #0f172a 0%, transparent 60%),
+                  radial-gradient(1000px 600px at 90% 90%, #1e293b 0%, transparent 60%),
+                  linear-gradient(135deg,#0b1220 0%,#0f172a 55%,#0b1220 100%);
+      overflow:hidden; position:relative;
+    }
 
-        .slide-content {
-            width: min(1100px, 96vw);
-            position: relative;
-            z-index: 10;
-        }
+    /* ultra-subtle grain */
+    .grain:before{
+      content:""; position:fixed; inset:-10%;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events:none; z-index:1; mix-blend-mode:soft-light;
+    }
 
-        /* Only when JS is confirmed, animate + hide until active */
-        .js .slide {
-            transition: opacity .5s ease, transform .5s ease;
-            opacity: 0;
-            transform: translateY(10px) scale(.99);
-        }
+    /* engineering gridlines */
+    .gridfx:after{
+      content:""; position:fixed; inset:0; pointer-events:none; z-index:2;
+      background-image: linear-gradient(to right, rgba(255,255,255,.04) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 64px 64px; mask-image: linear-gradient(to bottom, transparent, #000 15%, #000 85%, transparent);
+    }
 
-        .js .slide.active {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
+    .slide{
+      position:absolute; inset:0; width:100vw; height:100vh;
+      display:grid; place-items:center; padding:clamp(16px,3vw,32px);
+      text-align:center; color:var(--text-1); opacity:1; transform:none;
+    }
+    .slide-content{
+      width:min(1100px,96vw); position:relative; z-index:5;
+      background:var(--surface); border:1px solid rgba(148,163,184,.12);
+      box-shadow: var(--ring) 0 0 0 1px, var(--ring) 0 10px 30px -10px, var(--ring) 0 30px 60px -30px, var(--bg-2) 0 10px 50px inset;
+      border-radius:20px; padding:clamp(20px,5vw,44px); backdrop-filter:blur(8px);
+    }
+    .js .slide{transition:opacity .5s ease, transform .5s ease; opacity:0; transform:translateY(10px) scale(.99)}
+    .js .slide.active{opacity:1; transform:translateY(0) scale(1)}
+    .tilt{transform-style:preserve-3d; will-change:transform}
+    .tilt:hover{transform:perspective(1200px) rotateX(.6deg) rotateY(-.6deg); transition:transform .25s ease}
 
+    .pill{
+      display:inline-flex; align-items:center; gap:.5rem; padding:.35rem .7rem; border-radius:9999px;
+      background:rgba(59,130,246,.12); border:1px solid rgba(59,130,246,.25);
+      color:#bfdbfe; font-weight:600; font-size:.78rem; letter-spacing:.02em; text-transform:uppercase;
+    }
 
-        /* =========
-       Theme base
-       ========= */
-        :root {
-            color-scheme: dark;
-            --bg-2: #111827;
-            /* gray-900 */
-            --text-1: #e5e7eb;
-            /* gray-200 */
-            --surface: rgba(17, 24, 39, .85);
-            --ring: rgba(96, 165, 250, .35);
-        }
+    .topbar{
+      position:fixed; top:0; left:0; right:0; display:flex; align-items:center; gap:.8rem;
+      padding:.6rem .9rem; background:linear-gradient(to bottom, rgba(11,18,32,.85), rgba(11,18,32,0));
+      backdrop-filter:blur(6px); z-index:50;
+      border-bottom:1px solid rgba(148,163,184,.12);
+    }
+    .brand{
+      display:flex; align-items:center; gap:.55rem; padding:.25rem .5rem; border-radius:12px;
+      background:rgba(2,6,23,.5); border:1px solid rgba(148,163,184,.16);
+    }
+    .brand img{width:28px; height:28px; border-radius:6px}
+    .brand b{letter-spacing:.2px}
 
-        html,
-        body {
-            height: 100%;
-        }
+    .progress{flex:1; height:6px; background:rgba(148,163,184,.18); border-radius:9999px; overflow:hidden; outline:1px solid rgba(148,163,184,.18)}
+    .progress>i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--brand-1),var(--brand-3),var(--brand-2)); box-shadow:inset 0 0 16px rgba(96,165,250,.35)}
 
-        body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            color: var(--text-1);
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-            overflow: hidden;
-            position: relative;
-        }
+    .dots{position:fixed; bottom:16px; left:50%; transform:translateX(-50%); display:flex; gap:8px; padding:.25rem .5rem; border-radius:9999px; background:rgba(2,6,23,.55); border:1px solid rgba(148,163,184,.16); backdrop-filter:blur(6px); box-shadow:var(--ring) 0 0 0 1px, 0 8px 24px rgba(0,0,0,.35); z-index:40}
+    .dot{width:10px; height:10px; border-radius:9999px; background:rgba(203,213,225,.35); transition:transform .2s, background .2s}
+    .dot.active{background:#60a5fa; transform:scale(1.35)}
+    .nav{position:fixed; inset:0; pointer-events:none; z-index:40}
+    .nav-btn{pointer-events:auto; position:absolute; top:50%; transform:translateY(-50%); background:rgba(15,23,42,.7); border:1px solid rgba(148,163,184,.2); backdrop-filter:blur(6px); color:#e5e7eb; padding:.9rem 1.1rem; border-radius:9999px; box-shadow:var(--ring) 0 0 0 1px, 0 8px 24px rgba(0,0,0,.35); transition:transform .2s, box-shadow .2s; user-select:none}
+    .nav-btn:hover{transform:translateY(-50%) scale(1.05); box-shadow:0 12px 30px rgba(59,130,246,.25)}
+    .nav-btn:active{transform:translateY(-50%) scale(.98)}
+    .nav-left{left:1.2rem} .nav-right{right:1.2rem}
+    .card{background:rgba(2,6,23,.55); border:1px solid rgba(148,163,184,.14); border-radius:16px; padding:1.15rem; box-shadow:0 10px 30px rgba(0,0,0,.35)}
+    .chart-wrap{height:360px; width:100%; background:rgba(2,6,23,.6); border:1px solid rgba(148,163,184,.14); border-radius:16px; padding:12px; box-shadow:inset 0 0 0 1px rgba(96,165,250,.15), 0 10px 30px rgba(0,0,0,.35)}
+    .hide{display:none!important}
+    #slides-container{position:relative; z-index:5; height:100vh}
+    .slide.active{z-index:10}
 
-        /* Animated aurora backdrop */
-        .aurora::before,
-        .aurora::after {
-            content: '';
-            position: fixed;
-            inset: -10%;
-            background:
-                radial-gradient(40% 60% at 30% 20%, rgba(96, 165, 250, .15), transparent 60%),
-                radial-gradient(40% 60% at 70% 80%, rgba(147, 197, 253, .12), transparent 60%),
-                radial-gradient(35% 55% at 80% 25%, rgba(16, 185, 129, .12), transparent 60%);
-            filter: blur(40px);
-            opacity: .8;
-            pointer-events: none;
-            animation: drift 26s linear infinite;
-            z-index: 1;
-        }
+    /* watermark logo on title */
+    .wm:after{
+      content:""; position:absolute; inset:0; z-index:0; pointer-events:none; opacity:.06; filter:blur(1px);
+      background: url('assets/img/xohou/logo.png') center/320px 320px no-repeat;
+      mix-blend-mode:soft-light;
+    }
 
-        .aurora::after {
-            animation-duration: 38s;
-            mix-blend-mode: screen;
-            opacity: .6;
-            z-index: 2;
-        }
+    /* helper overlay */
+    .helper{
+      position:fixed; right:12px; bottom:12px; z-index:60;
+      background:rgba(2,6,23,.75); border:1px solid rgba(148,163,184,.22); border-radius:14px; padding:.7rem .9rem;
+      font-size:.9rem; color:var(--text-2); backdrop-filter:blur(6px); display:none;
+    }
+    .helper kbd{
+      background:rgba(148,163,184,.15); border:1px solid rgba(148,163,184,.25);
+      padding:.15rem .4rem; border-radius:6px; font-weight:600; color:#cbd5e1;
+    }
 
-        @keyframes drift {
-            0% {
-                transform: translate3d(0, 0, 0) scale(1);
-            }
-
-            50% {
-                transform: translate3d(2%, -1%, 0) scale(1.03);
-            }
-
-            100% {
-                transform: translate3d(0, 0, 0) scale(1);
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-
-            .aurora::before,
-            .aurora::after {
-                animation: none;
-            }
-        }
-
-        /* Surface card styling */
-        .slide-content {
-            background: var(--surface);
-            border: 1px solid rgba(148, 163, 184, .12);
-            box-shadow: var(--ring) 0 0 0 1px, var(--ring) 0 10px 30px -10px, var(--ring) 0 30px 60px -30px, var(--bg-2) 0 10px 50px inset;
-            border-radius: 20px;
-            padding: clamp(20px, 5vw, 44px);
-            backdrop-filter: blur(8px);
-        }
-
-        .pill {
-            display: inline-flex;
-            align-items: center;
-            gap: .5rem;
-            padding: .4rem .8rem;
-            border-radius: 9999px;
-            background: rgba(59, 130, 246, .12);
-            border: 1px solid rgba(59, 130, 246, .25);
-            color: #bfdbfe;
-            font-weight: 600;
-            font-size: .8rem;
-            letter-spacing: .02em;
-            text-transform: uppercase;
-        }
-
-        /* Topbar */
-        .topbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            display: flex;
-            align-items: center;
-            gap: .8rem;
-            padding: .75rem 1rem;
-            background: linear-gradient(to bottom, rgba(15, 23, 42, .8), rgba(15, 23, 42, 0));
-            backdrop-filter: blur(4px);
-            z-index: 50;
-        }
-
-        .progress {
-            flex: 1;
-            height: 6px;
-            background: rgba(148, 163, 184, .18);
-            border-radius: 9999px;
-            overflow: hidden;
-            outline: 1px solid rgba(148, 163, 184, .18);
-        }
-
-        .progress>i {
-            display: block;
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #3b82f6, #60a5fa, #34d399);
-            box-shadow: inset 0 0 16px rgba(96, 165, 250, .35);
-        }
-
-        /* Dots */
-        .dots {
-            position: fixed;
-            bottom: 16px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 8px;
-            padding: .25rem .5rem;
-            border-radius: 9999px;
-            background: rgba(2, 6, 23, .55);
-            border: 1px solid rgba(148, 163, 184, .16);
-            backdrop-filter: blur(6px);
-            box-shadow: var(--ring) 0 0 0 1px, 0 8px 24px rgba(0, 0, 0, .35);
-            z-index: 40;
-        }
-
-        .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 9999px;
-            background: rgba(203, 213, 225, .35);
-            transition: transform .2s, background .2s;
-        }
-
-        .dot.active {
-            background: #60a5fa;
-            transform: scale(1.35);
-        }
-
-        /* Nav buttons */
-        .nav {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 40;
-        }
-
-        .nav-btn {
-            pointer-events: auto;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(15, 23, 42, .7);
-            border: 1px solid rgba(148, 163, 184, .2);
-            backdrop-filter: blur(6px);
-            color: #e5e7eb;
-            padding: .9rem 1.1rem;
-            border-radius: 9999px;
-            box-shadow: var(--ring) 0 0 0 1px, 0 8px 24px rgba(0, 0, 0, .35);
-            transition: transform .2s, box-shadow .2s;
-            user-select: none;
-        }
-
-        .nav-btn:hover {
-            transform: translateY(-50%) scale(1.05);
-            box-shadow: 0 12px 30px rgba(59, 130, 246, .25);
-        }
-
-        .nav-btn:active {
-            transform: translateY(-50%) scale(.98);
-        }
-
-        .nav-left {
-            left: 1.2rem;
-        }
-
-        .nav-right {
-            right: 1.2rem;
-        }
-
-        /* Cards & charts */
-        .card {
-            background: rgba(2, 6, 23, .55);
-            border: 1px solid rgba(148, 163, 184, .14);
-            border-radius: 16px;
-            padding: 1.25rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
-        }
-
-        .chart-wrap {
-            height: 360px;
-            width: 100%;
-            background: rgba(2, 6, 23, .6);
-            border: 1px solid rgba(148, 163, 184, .14);
-            border-radius: 16px;
-            padding: 12px;
-            box-shadow: inset 0 0 0 1px rgba(96, 165, 250, .15), 0 10px 30px rgba(0, 0, 0, .35);
-        }
-
-        .hide {
-            display: none !important;
-        }
-
-        /* --- Visibility + stacking hardening --- */
-        #slides-container {
-            position: relative;
-            z-index: 5;
-            height: 100vh;
-        }
-
-        .slide.active {
-            z-index: 10;
-        }
-    </style>
+    /* motion preferences */
+    @media (prefers-reduced-motion: reduce){
+      .js .slide{transition:none}
+      .tilt:hover{transform:none}
+    }
+  </style>
 </head>
+<body class="grain gridfx aurora">
 
-<body class="aurora">
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="brand">
+      <img src="assets/img/xohou/logo.png" alt="XOHOU logo" />
+      <b>XOHOU</b><span class="text-xs px-2 py-0.5 rounded bg-white/5 border border-white/10">AI Solutions</span>
+    </div>
+    <span class="pill hidden sm:inline-flex">Pitch</span>
+    <div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+    <div class="flex items-center gap-2 text-sm ml-auto">
+      <button id="fsBtn" class="px-3 py-1.5 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition">⤢ Fullscreen</button>
+      <button id="linkBtn" class="px-3 py-1.5 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition">🔗 Copy link</button>
+      <span id="counter" class="ml-1 text-gray-300 tabular-nums"></span>
+    </div>
+  </div>
 
-    <!-- Top controls -->
-    <div class="topbar">
-        <span class="pill">XOHOU • pitch</span>
-        <div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
-        <div class="flex items-center gap-2 text-sm">
-            <button id="fsBtn"
-                class="px-3 py-1.5 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition">⤢
-                Fullscreen</button>
-            <button id="linkBtn"
-                class="px-3 py-1.5 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition">🔗 Copy
-                link</button>
-            <span id="counter" class="ml-1 text-gray-300 tabular-nums"></span>
+  <!-- Slides -->
+  <div id="slides-container">
+
+    <!-- Slide 0: Title -->
+    <section class="slide active wm" data-slide="0" aria-live="polite">
+      <div class="slide-content tilt">
+        <div class="mx-auto max-w-3xl relative z-10">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/15 bg-white/5 text-sm">
+            <img src="assets/img/xohou/logo.png" alt="XOHOU" class="w-5 h-5 rounded" />
+            <span class="opacity-90">XOHOU • AI that actually helps</span>
+          </div>
+          <h1 class="mt-5 text-5xl md:text-7xl font-extrabold tracking-tight leading-tight">
+            XOHOU <span class="text-transparent bg-clip-text bg-gradient-to-tr from-blue-400 via-blue-300 to-emerald-300">AI</span> Solutions
+          </h1>
+          <p class="mt-4 text-xl md:text-2xl text-gray-300/95">Voice & Chat Agents for frustration-free support</p>
+          <div class="mt-8 text-lg text-gray-300/90">
+            <p class="font-semibold text-gray-100">Kuldeep Sharma (CEO) • Deepankar Sharma (CTO)</p>
+          </div>
         </div>
+      </div>
+      <div class="absolute bottom-3 left-1/2 -translate-x-1/2 text-xs text-gray-400/80">Use ← / → • <b>F</b> Fullscreen • <b>H</b> Help • <b>A</b> Auto</div>
+    </section>
+
+    <!-- Slide 1: Problem -->
+    <section class="slide" data-slide="1">
+      <div class="slide-content tilt">
+        <h2 class="text-3xl md:text-5xl font-bold">The Bottleneck in Education & SMEs</h2>
+        <div class="mt-10 grid md:grid-cols-3 gap-6 text-left">
+          <div class="card hover:shadow-glow transition">
+            <h3 class="text-lg font-semibold mb-1 text-blue-300">Student friction</h3>
+            <p class="text-gray-400">Slow answers → confusion → drop-offs during peak periods.</p>
+          </div>
+          <div class="card hover:shadow-glow transition">
+            <h3 class="text-lg font-semibold mb-1 text-blue-300">Admin overload</h3>
+            <p class="text-gray-400">Teams stuck answering FAQs instead of solving edge-cases.</p>
+          </div>
+          <div class="card hover:shadow-glow transition">
+            <h3 class="text-lg font-semibold mb-1 text-blue-300">Systems that don’t scale</h3>
+            <p class="text-gray-400">Helplines jam; response quality dips when volume spikes.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 2: Solution -->
+    <section class="slide" data-slide="2">
+      <div class="slide-content tilt">
+        <h2 class="text-3xl md:text-5xl font-bold">An Intelligent, Scalable Solution</h2>
+        <div class="mt-10 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8">
+          <div class="card">
+            <p class="font-semibold">User Query</p>
+          </div>
+          <div class="text-4xl text-gray-400 select-none">→</div>
+          <div class="card bg-blue-900/40 border-blue-300/20">
+            <h3 class="text-2xl font-bold text-blue-300">XOHOU AI Agent</h3>
+            <ul class="mt-4 text-left space-y-2 text-gray-200">
+              <li>Handles high volumes</li>
+              <li>Troubleshoots common issues</li>
+              <li>Scales instantly to demand</li>
+            </ul>
+          </div>
+          <div class="text-4xl text-gray-400 select-none">→</div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="card bg-emerald-700/40 border-emerald-300/20 text-white font-semibold">Resolved</div>
+            <div class="card bg-yellow-700/40 border-yellow-300/20 text-white font-semibold">Escalated</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 3: Market -->
+    <section class="slide" data-slide="3">
+      <div class="slide-content tilt">
+        <h2 class="text-3xl md:text-5xl font-bold">Why Now? The Perfect Storm for AI</h2>
+        <div class="mt-10 grid md:grid-cols-2 gap-8 items-center">
+          <div class="text-left space-y-4">
+            <p class="text-lg text-gray-300/90">GenAI adoption is accelerating while expectations for digital-first support keep rising.</p>
+            <ul class="list-disc list-inside text-lg text-gray-200 space-y-2">
+              <li>Accelerating adoption of GenAI</li>
+              <li>24/7 support is table stakes</li>
+              <li>Institutions must reduce costs</li>
+            </ul>
+          </div>
+          <div class="chart-wrap"><canvas id="marketChart"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 4: Business Model -->
+    <section class="slide" data-slide="4">
+      <div class="slide-content tilt">
+        <h2 class="text-3xl md:text-5xl font-bold">Our Business Model: A Phased Approach</h2>
+        <div class="mt-10 grid md:grid-cols-3 gap-6 text-left">
+          <div class="card hover:shadow-glow transition">
+            <h3 class="text-xl font-bold text-blue-300">Phase I</h3>
+            <p class="text-gray-400 mt-2">Pilot at University of Delhi for exam + student support.</p>
+          </div>
+          <div class="card hover:shadow-glow transition">
+            <h3 class="text-xl font-bold text-blue-300">Phase II</h3>
+            <p class="text-gray-400 mt-2">SaaS roll-out to universities.</p>
+          </div>
+          <div class="card hover:shadow-glow transition">
+            <h3 class="text-xl font-bold text-blue-300">Phase III</h3>
+            <p class="text-gray-400 mt-2">SME “AI receptionist” packages.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 5: Pilot Plan -->
+    <section class="slide" data-slide="5">
+      <div class="slide-content tilt">
+        <h2 class="text-3xl md:text-5xl font-bold">Focused Pilot at the University of Delhi</h2>
+        <p class="mt-3 text-lg text-gray-300/90">Toggle to compare projections.</p>
+        <div class="mt-6 flex flex-wrap gap-3 justify-center">
+          <button data-metric="resolution" class="metric-btn px-4 py-2 rounded-full bg-blue-500 text-white font-semibold shadow-soft">Query Resolution</button>
+          <button data-metric="response" class="metric-btn px-4 py-2 rounded-full bg-white/10 text-gray-200 border border-white/20">Response Time</button>
+          <button data-metric="satisfaction" class="metric-btn px-4 py-2 rounded-full bg-white/10 text-gray-200 border border-white/20">Satisfaction</button>
+        </div>
+        <div class="chart-wrap mt-6"><canvas id="pilotChart"></canvas></div>
+      </div>
+    </section>
+
+    <!-- Slide 6: Team -->
+    <section class="slide" data-slide="6">
+      <div class="slide-content tilt">
+        <h2 class="text-3xl md:text-5xl font-bold">The Visionaries Behind XOHOU</h2>
+        <div class="mt-10 grid md:grid-cols-2 gap-6">
+          <div class="card text-center">
+            <div class="w-24 h-24 rounded-full mx-auto grid place-items-center text-3xl font-bold mb-4"
+                 style="background:linear-gradient(135deg,#1d4ed8,transparent); color:#c7d2fe;">KS</div>
+            <h3 class="text-xl font-bold">Kuldeep Sharma</h3>
+            <p class="text-blue-300 font-semibold">CEO & Co-founder</p>
+            <p class="mt-2 text-gray-400">B.A. (Hons.) Business Economics, University of Delhi (2026). Two-time best performer of the month.</p>
+          </div>
+          <div class="card text-center">
+            <div class="w-24 h-24 rounded-full mx-auto grid place-items-center text-3xl font-bold mb-4"
+                 style="background:linear-gradient(135deg,#2563eb,transparent); color:#c7d2fe;">DS</div>
+            <h3 class="text-xl font-bold">Deepankar Sharma</h3>
+            <p class="text-blue-300 font-semibold">CTO & Co-founder</p>
+            <p class="mt-2 text-gray-400">Tech architect with deep AI/ML expertise and a focus on scalable systems.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 7: The Ask -->
+    <section class="slide" data-slide="7">
+      <div class="slide-content tilt">
+        <h2 class="text-3xl md:text-5xl font-bold">Join Us in Building the Future of Support</h2>
+        <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
+          <div class="card bg-gradient-to-br from-blue-700/60 to-blue-600/40 text-white">
+            <h3 class="text-lg font-semibold mb-1">Incubation & Mentorship</h3>
+            <p class="opacity-90">Access to DU innovation cells, mentors, and admin champions.</p>
+          </div>
+          <div class="card bg-gradient-to-br from-blue-700/60 to-blue-600/40 text-white">
+            <h3 class="text-lg font-semibold mb-1">Infrastructure Support</h3>
+            <p class="opacity-90">Cloud credits, workspace, student dev teams.</p>
+          </div>
+          <div class="card bg-gradient-to-br from-blue-700/60 to-blue-600/40 text-white">
+            <h3 class="text-lg font-semibold mb-1">Strategic Connections</h3>
+            <p class="opacity-90">Intros to administrators and tech heads.</p>
+          </div>
+          <div class="card bg-gradient-to-br from-blue-700/60 to-blue-600/40 text-white">
+            <h3 class="text-lg font-semibold mb-1">Seed Funding</h3>
+            <p class="opacity-90">Capital to launch and validate the pilot.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 8: Thank You -->
+    <section class="slide" data-slide="8">
+      <div class="slide-content tilt">
+        <h2 class="text-3xl md:text-5xl font-bold">Thank You</h2>
+        <div class="mt-8 text-lg md:text-xl text-gray-300">
+          <p>For more information, please visit:</p>
+          <p class="mt-4 font-semibold">
+            <a href="https://ideepankarsharma2003.github.io/" class="text-blue-300 underline decoration-blue-500/40 hover:decoration-blue-300">Deepankar Sharma Portfolio</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Navigation -->
+  <div class="nav">
+    <button id="prev-btn" class="nav-btn nav-left" aria-label="Previous slide">←</button>
+    <button id="next-btn" class="nav-btn nav-right" aria-label="Next slide">→</button>
+  </div>
+
+  <!-- Slide dots -->
+  <div id="dots" class="dots" aria-label="Slide navigation"></div>
+
+  <!-- Helper -->
+  <div id="helper" class="helper">
+    <div class="text-sm">
+      <span class="mr-2">Navigate:</span><kbd>←</kbd>/<kbd>→</kbd> &nbsp; <kbd>F</kbd> Fullscreen &nbsp; <kbd>A</kbd> Auto-advance &nbsp; <kbd>H</kbd> Hide
     </div>
+  </div>
 
-    <!-- Slides -->
-    <div id="slides-container">
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      let currentSlide = 0;
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      const dotsWrap = document.getElementById('dots');
+      const progressEl = document.getElementById('progressBar');
+      const counter = document.getElementById('counter');
+      const fsBtn = document.getElementById('fsBtn');
+      const linkBtn = document.getElementById('linkBtn');
+      const helper = document.getElementById('helper');
+      let autoTimer = null, autoOn = false;
 
-        <!-- Slide 0: Title -->
-        <section class="slide active" data-slide="0" aria-live="polite">
-            <div class="slide-content">
-                <div class="mx-auto max-w-3xl">
-                    <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight">
-                        <span class="text-gray-100">XOHOU <span
-                                class="text-transparent bg-clip-text bg-gradient-to-tr from-blue-400 via-blue-300 to-emerald-300">AI</span>
-                            Solutions</span>
-                    </h1>
-                    <p class="mt-5 text-xl md:text-2xl text-gray-300/95">A.I. Voice & Chat Agents for Frustration-Free
-                        Support</p>
-                    <div class="mt-10 text-lg text-gray-300/90">
-                        <p>Presented by</p>
-                        <p class="mt-2 font-semibold text-gray-100">Kuldeep Sharma (CEO) • Deepankar Sharma (CTO)</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+      // Dots
+      slides.forEach((_, i) => {
+        const d = document.createElement('button');
+        d.className = 'dot' + (i === 0 ? ' active' : '');
+        d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+        d.addEventListener('click', () => goToSlide(i));
+        dotsWrap.appendChild(d);
+      });
 
-        <!-- Slide 1: Problem -->
-        <section class="slide" data-slide="1">
-            <div class="slide-content">
-                <h2 class="text-3xl md:text-5xl font-bold">The Bottleneck in Education & SMEs</h2>
-                <div class="mt-10 grid md:grid-cols-3 gap-6">
-                    <div class="card hover:shadow-glow transition">
-                        <div class="text-5xl mb-3">😟</div>
-                        <h3 class="text-xl font-semibold mb-2">Student Frustration</h3>
-                        <p class="text-gray-400">Students face delays, confusion, and frustration.</p>
-                    </div>
-                    <div class="card hover:shadow-glow transition">
-                        <div class="text-5xl mb-3">🥵</div>
-                        <h3 class="text-xl font-semibold mb-2">Administrative Overload</h3>
-                        <p class="text-gray-400">Admin staff are overwhelmed and overworked.</p>
-                    </div>
-                    <div class="card hover:shadow-glow transition">
-                        <div class="text-5xl mb-3">⏳</div>
-                        <h3 class="text-xl font-semibold mb-2">System Inefficiency</h3>
-                        <p class="text-gray-400">Helplines bottleneck during peak loads.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+      const updateUI = () => {
+        slides.forEach((s, i) => s.classList.toggle('active', i === currentSlide));
+        prevBtn.classList.toggle('hide', currentSlide === 0);
+        nextBtn.classList.toggle('hide', currentSlide === slides.length - 1);
 
-        <!-- Slide 2: Solution -->
-        <section class="slide" data-slide="2">
-            <div class="slide-content">
-                <h2 class="text-3xl md:text-5xl font-bold">An Intelligent, Scalable Solution</h2>
-                <div class="mt-10 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8">
-                    <div class="card">
-                        <div class="text-4xl">🧑‍🎓</div>
-                        <p class="mt-2 font-semibold">User Query</p>
-                    </div>
-                    <div class="text-4xl text-gray-400 select-none">→</div>
-                    <div class="card bg-blue-900/40 border-blue-300/20">
-                        <h3 class="text-2xl font-bold text-blue-300">XOHOU AI Agent</h3>
-                        <ul class="mt-4 text-left space-y-2 text-gray-200">
-                            <li>✔️ Handles high volume of queries</li>
-                            <li>✔️ Troubleshoots basic issues</li>
-                            <li>✔️ Instantly scales to demand</li>
-                        </ul>
-                    </div>
-                    <div class="text-4xl text-gray-400 select-none">→</div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="card bg-emerald-700/40 border-emerald-300/20 text-white font-semibold">Query
-                            Resolved</div>
-                        <div class="card bg-yellow-700/40 border-yellow-300/20 text-white font-semibold">Escalate to
-                            Human</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Slide 3: Market -->
-        <section class="slide" data-slide="3">
-            <div class="slide-content">
-                <h2 class="text-3xl md:text-5xl font-bold">Why Now? The Perfect Storm for AI</h2>
-                <div class="mt-10 grid md:grid-cols-2 gap-8 items-center">
-                    <div class="text-left space-y-4">
-                        <p class="text-lg text-gray-300/90">We're at the intersection of accelerating GenAI adoption and
-                            relentless demand for digital-first support.</p>
-                        <ul class="list-disc list-inside text-lg text-gray-200 space-y-2">
-                            <li>Accelerating adoption of Gen AI</li>
-                            <li>Demand for 24/7 digital-first support</li>
-                            <li>Institutions seeking cost reduction</li>
-                        </ul>
-                    </div>
-                    <div class="chart-wrap"><canvas id="marketChart"></canvas></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Slide 4: Business Model -->
-        <section class="slide" data-slide="4">
-            <div class="slide-content">
-                <h2 class="text-3xl md:text-5xl font-bold">Our Business Model: A Phased Approach</h2>
-                <div class="mt-10 grid md:grid-cols-3 gap-6">
-                    <div class="card hover:shadow-glow transition">
-                        <h3 class="text-xl font-bold text-blue-300">Phase I</h3>
-                        <p class="text-gray-400 mt-2">
-                            Pilot within the University of Delhi (starting with select colleges) for exam & student
-                            support.
-                        </p>
-                    </div>
-                    <div class="card hover:shadow-glow transition">
-                        <h3 class="text-xl font-bold text-blue-300">Phase II</h3>
-                        <p class="text-gray-400 mt-2">Expand with a SaaS subscription model to other universities.</p>
-                    </div>
-                    <div class="card hover:shadow-glow transition">
-                        <h3 class="text-xl font-bold text-blue-300">Phase III</h3>
-                        <p class="text-gray-400 mt-2">Diversify into SMEs with "AI receptionist" packages.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Slide 5: Pilot Plan -->
-        <section class="slide" data-slide="5">
-            <div class="slide-content">
-                <h2 class="text-3xl md:text-5xl font-bold">Focused Pilot at the University of Delhi</h2>
-                <p class="mt-3 text-lg text-gray-300/90">Measure success via key metrics. Toggle to compare projections.
-                </p>
-                <div class="mt-6 flex flex-wrap gap-3 justify-center">
-                    <button data-metric="resolution"
-                        class="metric-btn px-4 py-2 rounded-full bg-blue-500 text-white font-semibold shadow-soft">Query
-                        Resolution Rate</button>
-                    <button data-metric="response"
-                        class="metric-btn px-4 py-2 rounded-full bg-white/10 text-gray-200 border border-white/20">Avg.
-                        Response Time</button>
-                    <button data-metric="satisfaction"
-                        class="metric-btn px-4 py-2 rounded-full bg-white/10 text-gray-200 border border-white/20">Student
-                        Satisfaction</button>
-                </div>
-                <div class="chart-wrap mt-6"><canvas id="pilotChart"></canvas></div>
-            </div>
-        </section>
-
-        <!-- Slide 6: Team -->
-        <section class="slide" data-slide="6">
-            <div class="slide-content">
-                <h2 class="text-3xl md:text-5xl font-bold">The Visionaries Behind XOHOU</h2>
-                <div class="mt-10 grid md:grid-cols-2 gap-6">
-                    <div class="card text-center">
-                        <div class="w-24 h-24 rounded-full mx-auto grid place-items-center text-3xl font-bold mb-4"
-                            style="background:linear-gradient(135deg,#1d4ed8,transparent); color:#c7d2fe;">KS</div>
-                        <h3 class="text-xl font-bold">Kuldeep Sharma</h3>
-                        <p class="text-blue-300 font-semibold">CEO & Co-founder</p>
-                        <p class="mt-2 text-gray-400">B.A. (Hons.) Business Economics, University of Delhi (2026).
-                            Two-time best performer of the month.</p>
-                    </div>
-                    <div class="card text-center">
-                        <div class="w-24 h-24 rounded-full mx-auto grid place-items-center text-3xl font-bold mb-4"
-                            style="background:linear-gradient(135deg,#2563eb,transparent); color:#c7d2fe;">DS</div>
-                        <h3 class="text-xl font-bold">Deepankar Sharma</h3>
-                        <p class="text-blue-300 font-semibold">CTO & Co-founder</p>
-                        <p class="mt-2 text-gray-400">Tech architect with deep AI/ML expertise and a focus on scalable
-                            systems.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Slide 7: The Ask -->
-        <section class="slide" data-slide="7">
-            <div class="slide-content">
-                <h2 class="text-3xl md:text-5xl font-bold">Join Us in Building the Future of Support</h2>
-                <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
-                    <div class="card bg-gradient-to-br from-blue-700/60 to-blue-600/40 text-white">
-                        <div class="text-4xl mb-2">🤝</div>
-                        <h3 class="text-xl font-semibold mb-1">Incubation & Mentorship</h3>
-                        <p class="opacity-90">Access to University of Delhi innovation cells, mentors, and admin
-                            champions.</p>
-                    </div>
-                    <div class="card bg-gradient-to-br from-blue-700/60 to-blue-600/40 text-white">
-                        <div class="text-4xl mb-2">☁️</div>
-                        <h3 class="text-xl font-semibold mb-1">Infrastructure Support</h3>
-                        <p class="opacity-90">Cloud credits, workspace, and student dev teams.</p>
-                    </div>
-                    <div class="card bg-gradient-to-br from-blue-700/60 to-blue-600/40 text-white">
-                        <div class="text-4xl mb-2">🌐</div>
-                        <h3 class="text-xl font-semibold mb-1">Strategic Connections</h3>
-                        <p class="opacity-90">Intros to university administrators and tech heads.</p>
-                    </div>
-                    <div class="card bg-gradient-to-br from-blue-700/60 to-blue-600/40 text-white">
-                        <div class="text-4xl mb-2">💰</div>
-                        <h3 class="text-xl font-semibold mb-1">Seed Funding</h3>
-                        <p class="opacity-90">Capital to launch and validate the pilot.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Slide 8: Thank You -->
-        <section class="slide" data-slide="8">
-            <div class="slide-content">
-                <h2 class="text-3xl md:text-5xl font-bold">Thank You</h2>
-                <div class="mt-8 text-lg md:text-xl text-gray-300">
-                    <p>For more information, please visit:</p>
-                    <p class="mt-4 font-semibold">
-                        <a href="https://ideepankarsharma2003.github.io/"
-                            class="text-blue-300 underline decoration-blue-500/40 hover:decoration-blue-300">Deepankar
-                            Sharma Portfolio</a>
-                    </p>
-                </div>
-            </div>
-        </section>
-
-    </div>
-
-    <!-- Navigation -->
-    <div class="nav">
-        <button id="prev-btn" class="nav-btn nav-left" aria-label="Previous slide">←</button>
-        <button id="next-btn" class="nav-btn nav-right" aria-label="Next slide">→</button>
-    </div>
-
-    <!-- Slide dots -->
-    <div id="dots" class="dots" aria-label="Slide navigation"></div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            let currentSlide = 0;
-            const slides = Array.from(document.querySelectorAll('.slide'));
-            const prevBtn = document.getElementById('prev-btn');
-            const nextBtn = document.getElementById('next-btn');
-            const dotsWrap = document.getElementById('dots');
-            const progressEl = document.getElementById('progressBar');
-            const counter = document.getElementById('counter');
-            const fsBtn = document.getElementById('fsBtn');
-            const linkBtn = document.getElementById('linkBtn');
-
-            // Dots
-            slides.forEach((_, i) => {
-                const d = document.createElement('button');
-                d.className = 'dot' + (i === 0 ? ' active' : '');
-                d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
-                d.addEventListener('click', () => goToSlide(i));
-                dotsWrap.appendChild(d);
-            });
-
-            const updateUI = () => {
-                slides.forEach((s, i) => s.classList.toggle('active', i === currentSlide));
-                prevBtn.classList.toggle('hide', currentSlide === 0);
-                nextBtn.classList.toggle('hide', currentSlide === slides.length - 1);
-
-                // Dots
-                dotsWrap.querySelectorAll('.dot').forEach((dot, i) => {
-                    dot.classList.toggle('active', i === currentSlide);
-                });
-
-                // Progress + counter
-                const pct = ((currentSlide + 1) / slides.length) * 100;
-                progressEl.style.width = pct + '%';
-                counter.textContent = `${currentSlide + 1} / ${slides.length}`;
-
-                // Deep link
-                history.replaceState(null, '', `#slide-${currentSlide}`);
-
-                // Chart inits
-                if (currentSlide === 3) initMarketChart();
-                if (currentSlide === 5) initPilotChart();
-            };
-
-            const goToSlide = (index) => {
-                currentSlide = Math.max(0, Math.min(slides.length - 1, index));
-                updateUI();
-            };
-            const nextSlide = () => goToSlide(currentSlide + 1);
-            const prevSlide = () => goToSlide(currentSlide - 1);
-
-            // Buttons
-            nextBtn.addEventListener('click', nextSlide);
-            prevBtn.addEventListener('click', prevSlide);
-
-            // Keyboard
-            document.addEventListener('keyup', (e) => {
-                const tag = (e.target.tagName || '').toLowerCase();
-                if (tag === 'input' || tag === 'textarea') return;
-                if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') nextSlide();
-                else if (e.key === 'ArrowLeft' || e.key === 'Backspace') prevSlide();
-                else if ((e.key === 'f' || e.key === 'F')) toggleFullscreen();
-            });
-
-            // Touch swipe
-            let touchStartX = 0, touchEndX = 0;
-            document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
-            document.addEventListener('touchend', (e) => {
-                touchEndX = e.changedTouches[0].screenX;
-                const dx = touchEndX - touchStartX;
-                if (Math.abs(dx) > 50) (dx < 0 ? nextSlide() : prevSlide());
-            }, { passive: true });
-
-            // Deep link on load
-            const deep = location.hash.match(/slide-(\d+)/);
-            if (deep) currentSlide = Math.min(slides.length - 1, Math.max(0, parseInt(deep[1], 10)));
-
-            // Controls
-            function toggleFullscreen() {
-                if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
-                else document.exitFullscreen?.();
-            }
-            fsBtn.addEventListener('click', toggleFullscreen);
-
-            linkBtn.addEventListener('click', async () => {
-                const url = `${location.origin}${location.pathname}#slide-${currentSlide}`;
-                try {
-                    await navigator.clipboard.writeText(url);
-                    linkBtn.textContent = '✅ Copied';
-                    setTimeout(() => linkBtn.textContent = '🔗 Copy link', 1200);
-                } catch {
-                    prompt('Copy link:', url);
-                }
-            });
-
-            // Charts
-            let marketChart, pilotChart;
-            function gradient(ctx, a, b, c) {
-                const g = ctx.createLinearGradient(0, 0, 0, 360);
-                g.addColorStop(0, a); g.addColorStop(.5, b); g.addColorStop(1, c);
-                return g;
-            }
-            function initMarketChart() {
-                if (marketChart) return;
-                const canvas = document.getElementById('marketChart');
-                const ctx = canvas.getContext('2d');
-                const lineGrad = ctx.createLinearGradient(0, 0, 0, 360);
-                lineGrad.addColorStop(0, '#93c5fd'); lineGrad.addColorStop(1, '#3b82f6');
-                const fillGrad = gradient(ctx, 'rgba(96,165,250,.35)', 'rgba(59,130,246,.18)', 'rgba(59,130,246,0)');
-                marketChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: ['2023', '2024', '2025', '2026', '2027', '2028'],
-                        datasets: [{
-                            label: 'Market Size ($ Billions)',
-                            data: [15.8, 20.3, 26.1, 33.5, 43.0, 55.2],
-                            borderColor: lineGrad, backgroundColor: fillGrad, tension: .35, fill: true,
-                            pointRadius: 3, pointHoverRadius: 5,
-                        }]
-                    },
-                    options: {
-                        responsive: true, maintainAspectRatio: false,
-                        plugins: {
-                            legend: { display: false }, tooltip: {
-                                backgroundColor: 'rgba(2,6,23,.9)', borderColor: 'rgba(148,163,184,.25)', borderWidth: 1,
-                                titleColor: '#e5e7eb', bodyColor: '#e5e7eb'
-                            }
-                        },
-                        scales: {
-                            y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,.08)' }, ticks: { color: '#e5e7eb' } },
-                            x: { grid: { color: 'rgba(255,255,255,.06)' }, ticks: { color: '#e5e7eb' } }
-                        }
-                    }
-                });
-            }
-            function initPilotChart() {
-                if (pilotChart) return;
-                const canvas = document.getElementById('pilotChart');
-                const ctx = canvas.getContext('2d');
-                const baseData = {
-                    resolution: { label: 'Query Resolution Rate (%)', data: [25, 85] },
-                    response: { label: 'Average Response Time (Minutes)', data: [15, 0.5] },
-                    satisfaction: { label: 'Student Satisfaction (%)', data: [60, 92] }
-                };
-                const barGradA = gradient(ctx, 'rgba(203,213,225,.9)', 'rgba(148,163,184,.8)', 'rgba(100,116,139,.9)');
-                const barGradB = gradient(ctx, 'rgba(96,165,250,1)', 'rgba(59,130,246,.9)', 'rgba(37,99,235,.95)');
-                pilotChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Without AI', 'With XOHOU AI (Projected)'],
-                        datasets: [{ label: baseData.resolution.label, data: baseData.resolution.data, backgroundColor: [barGradA, barGradB], borderRadius: 10 }]
-                    },
-                    options: {
-                        responsive: true, maintainAspectRatio: false,
-                        plugins: {
-                            legend: { display: false }, tooltip: {
-                                backgroundColor: 'rgba(2,6,23,.9)', borderColor: 'rgba(148,163,184,.25)', borderWidth: 1,
-                                titleColor: '#e5e7eb', bodyColor: '#e5e7eb'
-                            }
-                        },
-                        scales: {
-                            y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,.08)' }, ticks: { color: '#e5e7eb' } },
-                            x: { grid: { color: 'rgba(255,255,255,.06)' }, ticks: { color: '#e5e7eb' } }
-                        }
-                    }
-                });
-                // Toggle buttons
-                document.querySelectorAll('.metric-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        document.querySelectorAll('.metric-btn').forEach(b => {
-                            b.classList.remove('bg-blue-500', 'text-white', 'shadow-soft');
-                            b.classList.add('bg-white/10', 'text-gray-200', 'border', 'border-white/20');
-                        });
-                        btn.classList.add('bg-blue-500', 'text-white', 'shadow-soft');
-                        btn.classList.remove('bg-white/10', 'border', 'border-white/20');
-
-                        const metric = btn.dataset.metric;
-                        pilotChart.data.datasets[0].data = baseData[metric].data;
-                        pilotChart.data.datasets[0].label = baseData[metric].label;
-                        pilotChart.update();
-                    });
-                });
-            }
-
-            // Initial render
-            updateUI();
-
-            // Click to navigate (outside chrome)
-            document.body.addEventListener('click', (e) => {
-                const withinControls = e.target.closest('.nav') || e.target.closest('.topbar') || e.target.closest('.dots') || e.target.closest('.metric-btn') || e.target.closest('.chart-wrap');
-                if (withinControls) return;
-                (e.clientX > window.innerWidth / 2) ? nextSlide() : prevSlide();
-            });
-
-            // Resize = keep charts crisp
-            let resizeTimer;
-            window.addEventListener('resize', () => {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(() => {
-                    if (marketChart) marketChart.resize();
-                    if (pilotChart) pilotChart.resize();
-                }, 120);
-            });
+        dotsWrap.querySelectorAll('.dot').forEach((dot, i) => {
+          dot.classList.toggle('active', i === currentSlide);
         });
-    </script>
-</body>
 
+        const pct = ((currentSlide + 1) / slides.length) * 100;
+        progressEl.style.width = pct + '%';
+        counter.textContent = `${currentSlide + 1} / ${slides.length}`;
+
+        history.replaceState(null, '', `#slide-${currentSlide}`);
+
+        if (currentSlide === 3) initMarketChart();
+        if (currentSlide === 5) initPilotChart();
+      };
+
+      const goToSlide = (index) => {
+        currentSlide = Math.max(0, Math.min(slides.length - 1, index));
+        updateUI();
+      };
+      const nextSlide = () => goToSlide(currentSlide + 1);
+      const prevSlide = () => goToSlide(currentSlide - 1);
+
+      nextBtn.addEventListener('click', nextSlide);
+      prevBtn.addEventListener('click', prevSlide);
+
+      // Keyboard
+      document.addEventListener('keyup', (e) => {
+        const tag = (e.target.tagName || '').toLowerCase();
+        if (tag === 'input' || tag === 'textarea') return;
+        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') nextSlide();
+        else if (e.key === 'ArrowLeft' || e.key === 'Backspace') prevSlide();
+        else if ((e.key === 'f' || e.key === 'F')) toggleFullscreen();
+        else if ((e.key === 'h' || e.key === 'H')) helper.style.display = helper.style.display ? '' : 'block';
+        else if ((e.key === 'a' || e.key === 'A')) toggleAuto();
+      });
+
+      // Touch swipe
+      let touchStartX = 0, touchEndX = 0;
+      document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+      document.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        const dx = touchEndX - touchStartX;
+        if (Math.abs(dx) > 50) (dx < 0 ? nextSlide() : prevSlide());
+      }, { passive: true });
+
+      // Deep link on load
+      const deep = location.hash.match(/slide-(\d+)/);
+      if (deep) currentSlide = Math.min(slides.length - 1, Math.max(0, parseInt(deep[1], 10)));
+
+      // Controls
+      function toggleFullscreen() {
+        if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+        else document.exitFullscreen?.();
+      }
+      fsBtn.addEventListener('click', toggleFullscreen);
+
+      linkBtn.addEventListener('click', async () => {
+        const url = `${location.origin}${location.pathname}#slide-${currentSlide}`;
+        try {
+          await navigator.clipboard.writeText(url);
+          linkBtn.textContent = '✅ Copied';
+          setTimeout(() => linkBtn.textContent = '🔗 Copy link', 1200);
+        } catch {
+          prompt('Copy link:', url);
+        }
+      });
+
+      function toggleAuto(){
+        autoOn = !autoOn;
+        if (autoOn){
+          autoTimer = setInterval(() => {
+            if (currentSlide >= slides.length - 1) { toggleAuto(); return; }
+            nextSlide();
+          }, 5000);
+        } else {
+          clearInterval(autoTimer);
+        }
+      }
+
+      // Charts
+      let marketChart, pilotChart;
+      function gradient(ctx, a, b, c) {
+        const g = ctx.createLinearGradient(0, 0, 0, 360);
+        g.addColorStop(0, a); g.addColorStop(.5, b); g.addColorStop(1, c);
+        return g;
+      }
+      function initMarketChart() {
+        if (marketChart) return;
+        const canvas = document.getElementById('marketChart');
+        const ctx = canvas.getContext('2d');
+        const lineGrad = ctx.createLinearGradient(0, 0, 0, 360);
+        lineGrad.addColorStop(0, '#93c5fd'); lineGrad.addColorStop(1, '#3b82f6');
+        const fillGrad = gradient(ctx, 'rgba(96,165,250,.35)', 'rgba(59,130,246,.18)', 'rgba(59,130,246,0)');
+        marketChart = new Chart(ctx, {
+          type: 'line',
+          data: { labels: ['2023','2024','2025','2026','2027','2028'],
+            datasets: [{ label: 'Market Size ($ Billions)', data: [15.8,20.3,26.1,33.5,43.0,55.2],
+              borderColor: lineGrad, backgroundColor: fillGrad, tension:.35, fill:true, pointRadius:3, pointHoverRadius:5 }] },
+          options: {
+            responsive:true, maintainAspectRatio:false,
+            plugins:{ legend:{display:false}, tooltip:{ backgroundColor:'rgba(2,6,23,.9)', borderColor:'rgba(148,163,184,.25)', borderWidth:1, titleColor:'#e5e7eb', bodyColor:'#e5e7eb' } },
+            scales:{ y:{ beginAtZero:true, grid:{color:'rgba(255,255,255,.08)'}, ticks:{color:'#e5e7eb'} },
+                     x:{ grid:{color:'rgba(255,255,255,.06)'}, ticks:{color:'#e5e7eb'} } }
+          }
+        });
+      }
+      function initPilotChart() {
+        if (pilotChart) return;
+        const canvas = document.getElementById('pilotChart');
+        const ctx = canvas.getContext('2d');
+        const baseData = {
+          resolution: { label: 'Query Resolution Rate (%)', data: [25, 85] },
+          response:   { label: 'Average Response Time (Minutes)', data: [15, 0.5] },
+          satisfaction:{ label: 'Student Satisfaction (%)', data: [60, 92] }
+        };
+        const barGradA = gradient(ctx, 'rgba(203,213,225,.9)', 'rgba(148,163,184,.8)', 'rgba(100,116,139,.9)');
+        const barGradB = gradient(ctx, 'rgba(96,165,250,1)', 'rgba(59,130,246,.9)', 'rgba(37,99,235,.95)');
+        pilotChart = new Chart(ctx, {
+          type:'bar',
+          data:{ labels:['Without AI','With XOHOU AI (Projected)'],
+            datasets:[{ label: baseData.resolution.label, data: baseData.resolution.data, backgroundColor:[barGradA, barGradB], borderRadius:10 }] },
+          options:{
+            responsive:true, maintainAspectRatio:false,
+            plugins:{ legend:{display:false}, tooltip:{ backgroundColor:'rgba(2,6,23,.9)', borderColor:'rgba(148,163,184,.25)', borderWidth:1, titleColor:'#e5e7eb', bodyColor:'#e5e7eb' } },
+            scales:{ y:{ beginAtZero:true, grid:{color:'rgba(255,255,255,.08)'}, ticks:{color:'#e5e7eb'} },
+                     x:{ grid:{color:'rgba(255,255,255,.06)'}, ticks:{color:'#e5e7eb'} } }
+          }
+        });
+        document.querySelectorAll('.metric-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.metric-btn').forEach(b => {
+              b.classList.remove('bg-blue-500','text-white','shadow-soft');
+              b.classList.add('bg-white/10','text-gray-200','border','border-white/20');
+            });
+            btn.classList.add('bg-blue-500','text-white','shadow-soft');
+            btn.classList.remove('bg-white/10','border','border-white/20');
+
+            const metric = btn.dataset.metric;
+            pilotChart.data.datasets[0].data  = baseData[metric].data;
+            pilotChart.data.datasets[0].label = baseData[metric].label;
+            pilotChart.update();
+          });
+        });
+      }
+
+      // Initial render
+      updateUI();
+
+      // Click to navigate (outside chrome)
+      document.body.addEventListener('click', (e) => {
+        const withinControls = e.target.closest('.nav') || e.target.closest('.topbar') || e.target.closest('.dots') || e.target.closest('.metric-btn') || e.target.closest('.chart-wrap') || e.target.closest('a');
+        if (withinControls) return;
+        (e.clientX > window.innerWidth / 2) ? nextSlide() : prevSlide();
+      });
+
+      // Resize = keep charts crisp
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          if (marketChart) marketChart.resize();
+          if (pilotChart) pilotChart.resize();
+        }, 120);
+      });
+    });
+  </script>
+</body>
 </html>
