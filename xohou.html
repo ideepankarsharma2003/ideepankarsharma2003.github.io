@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -16,15 +17,11 @@
 
   <script>document.documentElement.classList.add('js');</script>
 
-  <noscript>
-    <style>.nav,.dots,.topbar{display:none!important}.slide{height:auto;min-height:80vh}</style>
-  </noscript>
-
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: { sans: ['Inter','ui-sans-serif','system-ui'] },
+          fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'] },
           boxShadow: {
             'glow': '0 10px 30px rgba(59,130,246,.25)',
             'soft': '0 6px 20px rgba(0,0,0,.35)'
@@ -36,126 +33,375 @@
   </script>
 
   <style>
-    :root{
-      color-scheme:dark;
-      --bg-1:#0b1220; --bg-2:#111827; --text-1:#e5e7eb; --text-2:#a9b1c3;
-      --surface:rgba(12,18,32,.78); --ring:rgba(96,165,250,.35);
-      --brand-1:#60a5fa; --brand-2:#34d399; --brand-3:#93c5fd;
+    :root {
+      color-scheme: dark;
+      --bg-1: #0b1220;
+      --bg-2: #111827;
+      --text-1: #e5e7eb;
+      --text-2: #a9b1c3;
+      --surface: rgba(12, 18, 32, .78);
+      --ring: rgba(96, 165, 250, .35);
+      --brand-1: #60a5fa;
+      --brand-2: #34d399;
+      --brand-3: #93c5fd;
     }
-    html,body{height:100%}
-    body{
-      margin:0; font-family:'Inter',sans-serif; color:var(--text-1);
+
+    html,
+    body {
+      height: 100%
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      color: var(--text-1);
       background: radial-gradient(1200px 800px at 10% 10%, #0f172a 0%, transparent 60%),
-                  radial-gradient(1000px 600px at 90% 90%, #1e293b 0%, transparent 60%),
-                  linear-gradient(135deg,#0b1220 0%,#0f172a 55%,#0b1220 100%);
-      overflow:hidden; position:relative;
+        radial-gradient(1000px 600px at 90% 90%, #1e293b 0%, transparent 60%),
+        linear-gradient(135deg, #0b1220 0%, #0f172a 55%, #0b1220 100%);
+      overflow: hidden;
+      position: relative;
     }
 
     /* ultra-subtle grain */
-    .grain:before{
-      content:""; position:fixed; inset:-10%;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-      pointer-events:none; z-index:1; mix-blend-mode:soft-light;
+    .grain:before {
+      content: "";
+      position: fixed;
+      inset: -10%;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1;
+      mix-blend-mode: soft-light;
     }
 
     /* engineering gridlines */
-    .gridfx:after{
-      content:""; position:fixed; inset:0; pointer-events:none; z-index:2;
-      background-image: linear-gradient(to right, rgba(255,255,255,.04) 1px, transparent 1px),
-                        linear-gradient(to bottom, rgba(255,255,255,.035) 1px, transparent 1px);
-      background-size: 64px 64px; mask-image: linear-gradient(to bottom, transparent, #000 15%, #000 85%, transparent);
+    .gridfx:after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      background-image: linear-gradient(to right, rgba(255, 255, 255, .04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, .035) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: linear-gradient(to bottom, transparent, #000 15%, #000 85%, transparent);
     }
 
-    .slide{
-      position:absolute; inset:0; width:100vw; height:100vh;
-      display:grid; place-items:center; padding:clamp(16px,3vw,32px);
-      text-align:center; color:var(--text-1); opacity:1; transform:none;
+    .slide {
+      position: absolute;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: clamp(16px, 3vw, 32px);
+      text-align: center;
+      color: var(--text-1);
+      opacity: 1;
+      transform: none;
     }
-    .slide-content{
-      width:min(1100px,96vw); position:relative; z-index:5;
-      background:var(--surface); border:1px solid rgba(148,163,184,.12);
+
+    .slide-content {
+      width: min(1100px, 96vw);
+      position: relative;
+      z-index: 5;
+      background: var(--surface);
+      border: 1px solid rgba(148, 163, 184, .12);
       box-shadow: var(--ring) 0 0 0 1px, var(--ring) 0 10px 30px -10px, var(--ring) 0 30px 60px -30px, var(--bg-2) 0 10px 50px inset;
-      border-radius:20px; padding:clamp(20px,5vw,44px); backdrop-filter:blur(8px);
-    }
-    .js .slide{transition:opacity .5s ease, transform .5s ease; opacity:0; transform:translateY(10px) scale(.99)}
-    .js .slide.active{opacity:1; transform:translateY(0) scale(1)}
-    .tilt{transform-style:preserve-3d; will-change:transform}
-    .tilt:hover{transform:perspective(1200px) rotateX(.6deg) rotateY(-.6deg); transition:transform .25s ease}
-
-    .pill{
-      display:inline-flex; align-items:center; gap:.5rem; padding:.35rem .7rem; border-radius:9999px;
-      background:rgba(59,130,246,.12); border:1px solid rgba(59,130,246,.25);
-      color:#bfdbfe; font-weight:600; font-size:.78rem; letter-spacing:.02em; text-transform:uppercase;
+      border-radius: 20px;
+      padding: clamp(20px, 5vw, 44px);
+      backdrop-filter: blur(8px);
     }
 
-    .topbar{
-      position:fixed; top:0; left:0; right:0; display:flex; align-items:center; gap:.8rem;
-      padding:.6rem .9rem; background:linear-gradient(to bottom, rgba(11,18,32,.85), rgba(11,18,32,0));
-      backdrop-filter:blur(6px); z-index:50;
-      border-bottom:1px solid rgba(148,163,184,.12);
+    .js .slide {
+      transition: opacity .5s ease, transform .5s ease;
+      opacity: 0;
+      transform: translateY(10px) scale(.99)
     }
-    .brand{
-      display:flex; align-items:center; gap:.55rem; padding:.25rem .5rem; border-radius:12px;
-      background:rgba(2,6,23,.5); border:1px solid rgba(148,163,184,.16);
+
+    .js .slide.active {
+      opacity: 1;
+      transform: translateY(0) scale(1)
     }
-    .brand img{width:28px; height:28px; border-radius:6px}
-    .brand b{letter-spacing:.2px}
 
-    .progress{flex:1; height:6px; background:rgba(148,163,184,.18); border-radius:9999px; overflow:hidden; outline:1px solid rgba(148,163,184,.18)}
-    .progress>i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--brand-1),var(--brand-3),var(--brand-2)); box-shadow:inset 0 0 16px rgba(96,165,250,.35)}
+    .tilt {
+      transform-style: preserve-3d;
+      will-change: transform
+    }
 
-    .dots{position:fixed; bottom:16px; left:50%; transform:translateX(-50%); display:flex; gap:8px; padding:.25rem .5rem; border-radius:9999px; background:rgba(2,6,23,.55); border:1px solid rgba(148,163,184,.16); backdrop-filter:blur(6px); box-shadow:var(--ring) 0 0 0 1px, 0 8px 24px rgba(0,0,0,.35); z-index:40}
-    .dot{width:10px; height:10px; border-radius:9999px; background:rgba(203,213,225,.35); transition:transform .2s, background .2s}
-    .dot.active{background:#60a5fa; transform:scale(1.35)}
-    .nav{position:fixed; inset:0; pointer-events:none; z-index:40}
-    .nav-btn{pointer-events:auto; position:absolute; top:50%; transform:translateY(-50%); background:rgba(15,23,42,.7); border:1px solid rgba(148,163,184,.2); backdrop-filter:blur(6px); color:#e5e7eb; padding:.9rem 1.1rem; border-radius:9999px; box-shadow:var(--ring) 0 0 0 1px, 0 8px 24px rgba(0,0,0,.35); transition:transform .2s, box-shadow .2s; user-select:none}
-    .nav-btn:hover{transform:translateY(-50%) scale(1.05); box-shadow:0 12px 30px rgba(59,130,246,.25)}
-    .nav-btn:active{transform:translateY(-50%) scale(.98)}
-    .nav-left{left:1.2rem} .nav-right{right:1.2rem}
-    .card{background:rgba(2,6,23,.55); border:1px solid rgba(148,163,184,.14); border-radius:16px; padding:1.15rem; box-shadow:0 10px 30px rgba(0,0,0,.35)}
-    .chart-wrap{height:360px; width:100%; background:rgba(2,6,23,.6); border:1px solid rgba(148,163,184,.14); border-radius:16px; padding:12px; box-shadow:inset 0 0 0 1px rgba(96,165,250,.15), 0 10px 30px rgba(0,0,0,.35)}
-    .hide{display:none!important}
-    #slides-container{position:relative; z-index:5; height:100vh}
-    .slide.active{z-index:10}
+    .tilt:hover {
+      transform: perspective(1200px) rotateX(.6deg) rotateY(-.6deg);
+      transition: transform .25s ease
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .35rem .7rem;
+      border-radius: 9999px;
+      background: rgba(59, 130, 246, .12);
+      border: 1px solid rgba(59, 130, 246, .25);
+      color: #bfdbfe;
+      font-weight: 600;
+      font-size: .78rem;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+    }
+
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      padding: .6rem .9rem;
+      background: linear-gradient(to bottom, rgba(11, 18, 32, .85), rgba(11, 18, 32, 0));
+      backdrop-filter: blur(6px);
+      z-index: 50;
+      border-bottom: 1px solid rgba(148, 163, 184, .12);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: .55rem;
+      padding: .25rem .5rem;
+      border-radius: 12px;
+      background: rgba(2, 6, 23, .5);
+      border: 1px solid rgba(148, 163, 184, .16);
+    }
+
+    .brand img {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px
+    }
+
+    .brand b {
+      letter-spacing: .2px
+    }
+
+    .progress {
+      flex: 1;
+      height: 6px;
+      background: rgba(148, 163, 184, .18);
+      border-radius: 9999px;
+      overflow: hidden;
+      outline: 1px solid rgba(148, 163, 184, .18)
+    }
+
+    .progress>i {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--brand-1), var(--brand-3), var(--brand-2));
+      box-shadow: inset 0 0 16px rgba(96, 165, 250, .35)
+    }
+
+    .dots {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      padding: .25rem .5rem;
+      border-radius: 9999px;
+      background: rgba(2, 6, 23, .55);
+      border: 1px solid rgba(148, 163, 184, .16);
+      backdrop-filter: blur(6px);
+      box-shadow: var(--ring) 0 0 0 1px, 0 8px 24px rgba(0, 0, 0, .35);
+      z-index: 40
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 9999px;
+      background: rgba(203, 213, 225, .35);
+      transition: transform .2s, background .2s
+    }
+
+    .dot.active {
+      background: #60a5fa;
+      transform: scale(1.35)
+    }
+
+    .nav {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 40
+    }
+
+    .nav-btn {
+      pointer-events: auto;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(15, 23, 42, .7);
+      border: 1px solid rgba(148, 163, 184, .2);
+      backdrop-filter: blur(6px);
+      color: #e5e7eb;
+      padding: .9rem 1.1rem;
+      border-radius: 9999px;
+      box-shadow: var(--ring) 0 0 0 1px, 0 8px 24px rgba(0, 0, 0, .35);
+      transition: transform .2s, box-shadow .2s;
+      user-select: none
+    }
+
+    .nav-btn:hover {
+      transform: translateY(-50%) scale(1.05);
+      box-shadow: 0 12px 30px rgba(59, 130, 246, .25)
+    }
+
+    .nav-btn:active {
+      transform: translateY(-50%) scale(.98)
+    }
+
+    .nav-left {
+      left: 1.2rem
+    }
+
+    .nav-right {
+      right: 1.2rem
+    }
+
+    .card {
+      background: rgba(2, 6, 23, .55);
+      border: 1px solid rgba(148, 163, 184, .14);
+      border-radius: 16px;
+      padding: 1.15rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .35)
+    }
+
+    .chart-wrap {
+      height: 360px;
+      width: 100%;
+      background: rgba(2, 6, 23, .6);
+      border: 1px solid rgba(148, 163, 184, .14);
+      border-radius: 16px;
+      padding: 12px;
+      box-shadow: inset 0 0 0 1px rgba(96, 165, 250, .15), 0 10px 30px rgba(0, 0, 0, .35)
+    }
+
+    .hide {
+      display: none !important
+    }
+
+    #slides-container {
+      position: relative;
+      z-index: 5;
+      height: 100vh
+    }
+
+    .slide.active {
+      z-index: 10
+    }
 
     /* watermark logo on title */
-    .wm:after{
-      content:""; position:absolute; inset:0; z-index:0; pointer-events:none; opacity:.06; filter:blur(1px);
+    .wm:after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: .06;
+      filter: blur(1px);
       background: url('assets/img/xohou/logo.png') center/320px 320px no-repeat;
-      mix-blend-mode:soft-light;
+      mix-blend-mode: soft-light;
     }
 
     /* helper overlay */
-    .helper{
-      position:fixed; right:12px; bottom:12px; z-index:60;
-      background:rgba(2,6,23,.75); border:1px solid rgba(148,163,184,.22); border-radius:14px; padding:.7rem .9rem;
-      font-size:.9rem; color:var(--text-2); backdrop-filter:blur(6px); display:none;
+    .helper {
+      position: fixed;
+      right: 12px;
+      bottom: 12px;
+      z-index: 60;
+      background: rgba(2, 6, 23, .75);
+      border: 1px solid rgba(148, 163, 184, .22);
+      border-radius: 14px;
+      padding: .7rem .9rem;
+      font-size: .9rem;
+      color: var(--text-2);
+      backdrop-filter: blur(6px);
+      display: none;
     }
-    .helper kbd{
-      background:rgba(148,163,184,.15); border:1px solid rgba(148,163,184,.25);
-      padding:.15rem .4rem; border-radius:6px; font-weight:600; color:#cbd5e1;
+
+    .helper kbd {
+      background: rgba(148, 163, 184, .15);
+      border: 1px solid rgba(148, 163, 184, .25);
+      padding: .15rem .4rem;
+      border-radius: 6px;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+
+    /* PRINT: clean export */
+    @media print {
+
+      .topbar,
+      .dots,
+      .nav,
+      .helper {
+        display: none !important;
+      }
+
+      body {
+        background: #0b1220 !important;
+        overflow: visible !important;
+      }
+
+      .slide {
+        position: static !important;
+        opacity: 1 !important;
+        transform: none !important;
+        page-break-after: always;
+      }
     }
 
     /* motion preferences */
-    @media (prefers-reduced-motion: reduce){
-      .js .slide{transition:none}
-      .tilt:hover{transform:none}
+    @media (prefers-reduced-motion: reduce) {
+      .js .slide {
+        transition: none
+      }
+
+      .tilt:hover {
+        transform: none
+      }
     }
   </style>
 </head>
+
 <body class="grain gridfx aurora">
 
   <!-- Topbar -->
   <div class="topbar">
     <div class="brand">
       <img src="assets/img/xohou/logo.png" alt="XOHOU logo" />
-      <b>XOHOU</b><span class="text-xs px-2 py-0.5 rounded bg-white/5 border border-white/10">AI Solutions</span>
+      <b>XOHOU</b>
+      <span class="text-xs px-2 py-0.5 rounded bg-white/5 border border-white/10">AI Solutions</span>
     </div>
-    <span class="pill hidden sm:inline-flex">Pitch</span>
-    <div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+
+    <span class="pill hidden sm:inline-flex">Pitch Deck</span>
+
+    <div class="progress" aria-hidden="true">
+      <i id="progressBar"></i>
+    </div>
+
     <div class="flex items-center gap-2 text-sm ml-auto">
-      <button id="fsBtn" class="px-3 py-1.5 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition">⤢ Fullscreen</button>
-      <button id="linkBtn" class="px-3 py-1.5 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition">🔗 Copy link</button>
+      <button id="fsBtn" class="px-3 py-1.5 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition">
+        ⤢ Fullscreen
+      </button>
+      <button id="linkBtn"
+        class="px-3 py-1.5 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition">
+        🔗 Copy link
+      </button>
+      <button id="pdfBtn" class="px-3 py-1.5 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 transition">
+        📄 Download PDF
+      </button>
       <span id="counter" class="ml-1 text-gray-300 tabular-nums"></span>
     </div>
   </div>
@@ -163,7 +409,7 @@
   <!-- Slides -->
   <div id="slides-container">
 
-    <!-- Slide 0: Title -->
+    <!-- Slide 0: Executive Summary (Title) -->
     <section class="slide active wm" data-slide="0" aria-live="polite">
       <div class="slide-content tilt">
         <div class="mx-auto max-w-3xl relative z-10">
@@ -172,53 +418,67 @@
             <span class="opacity-90">XOHOU • AI that actually helps</span>
           </div>
           <h1 class="mt-5 text-5xl md:text-7xl font-extrabold tracking-tight leading-tight">
-            XOHOU <span class="text-transparent bg-clip-text bg-gradient-to-tr from-blue-400 via-blue-300 to-emerald-300">AI</span> Solutions
+            XOHOU <span
+              class="text-transparent bg-clip-text bg-gradient-to-tr from-blue-400 via-blue-300 to-emerald-300">AI</span>
+            Solutions
           </h1>
-          <p class="mt-4 text-xl md:text-2xl text-gray-300/95">Voice & Chat Agents for frustration-free support</p>
-          <div class="mt-8 text-lg text-gray-300/90">
+          <p class="mt-4 text-xl md:text-2xl text-gray-300/95">
+            Voice & Chat Agents for student support and SME helpdesks — fast, accurate, 24/7.
+          </p>
+          <div class="mt-8 text-lg text-gray-300/90 space-y-2">
+            <p><b>What we do:</b> AI agents that answer FAQs, route edge-cases, and scale instantly during peak load.
+            </p>
+            <p><b>Who we serve:</b> Universities & SMEs struggling with jammed helplines and slow response times.</p>
+            <p><b>Round:</b> Seeking <span class="font-semibold text-blue-300">$75,000 (seed)</span> + <span
+                class="font-semibold text-emerald-300">₹5–6 lakh POC budget (India)</span>.</p>
             <p class="font-semibold text-gray-100">Kuldeep Sharma (CEO) • Deepankar Sharma (CTO)</p>
           </div>
         </div>
       </div>
-      <div class="absolute bottom-3 left-1/2 -translate-x-1/2 text-xs text-gray-400/80">Use ← / → • <b>F</b> Fullscreen • <b>H</b> Help • <b>A</b> Auto</div>
+      <div class="absolute bottom-3 left-1/2 -translate-x-1/2 text-xs text-gray-400/80">Use ← / → • <b>F</b> Fullscreen
+        • <b>H</b> Help • <b>A</b> Auto</div>
     </section>
 
     <!-- Slide 1: Problem -->
     <section class="slide" data-slide="1">
       <div class="slide-content tilt">
-        <h2 class="text-3xl md:text-5xl font-bold">The Bottleneck in Education & SMEs</h2>
-        <div class="mt-10 grid md:grid-cols-3 gap-6 text-left">
+        <h2 class="text-3xl md:text-5xl font-bold">The Problem We’re Solving</h2>
+        <p class="mt-3 text-lg text-gray-300/90">Universities & SMEs face high query volumes, slow responses, and rising
+          expectations.</p>
+        <div class="mt-8 grid md:grid-cols-3 gap-6 text-left">
           <div class="card hover:shadow-glow transition">
             <h3 class="text-lg font-semibold mb-1 text-blue-300">Student friction</h3>
-            <p class="text-gray-400">Slow answers → confusion → drop-offs during peak periods.</p>
+            <p class="text-gray-400">Delayed answers → confusion → drop-offs during admissions/exams.</p>
           </div>
           <div class="card hover:shadow-glow transition">
             <h3 class="text-lg font-semibold mb-1 text-blue-300">Admin overload</h3>
-            <p class="text-gray-400">Teams stuck answering FAQs instead of solving edge-cases.</p>
+            <p class="text-gray-400">Teams stuck on repetitive FAQs instead of handling exceptions.</p>
           </div>
           <div class="card hover:shadow-glow transition">
-            <h3 class="text-lg font-semibold mb-1 text-blue-300">Systems that don’t scale</h3>
-            <p class="text-gray-400">Helplines jam; response quality dips when volume spikes.</p>
+            <h3 class="text-lg font-semibold mb-1 text-blue-300">Systems don’t scale</h3>
+            <p class="text-gray-400">Helplines jam; quality dips exactly when demand spikes.</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Slide 2: Solution -->
-    <section class="slide" data-slide="2">
+    <!-- <section class="slide" data-slide="2">
       <div class="slide-content tilt">
-        <h2 class="text-3xl md:text-5xl font-bold">An Intelligent, Scalable Solution</h2>
-        <div class="mt-10 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8">
+        <h2 class="text-3xl md:text-5xl font-bold">Our Solution (How It Works)</h2>
+        <p class="mt-3 text-lg text-gray-300/90">AI agents that answer instantly, escalate smartly, and learn from real conversations.</p>
+        <div class="mt-8 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8">
           <div class="card">
             <p class="font-semibold">User Query</p>
+            <p class="text-sm text-gray-400">Web • WhatsApp • Phone (IVR) • Chat</p>
           </div>
           <div class="text-4xl text-gray-400 select-none">→</div>
           <div class="card bg-blue-900/40 border-blue-300/20">
             <h3 class="text-2xl font-bold text-blue-300">XOHOU AI Agent</h3>
             <ul class="mt-4 text-left space-y-2 text-gray-200">
-              <li>Handles high volumes</li>
-              <li>Troubleshoots common issues</li>
-              <li>Scales instantly to demand</li>
+              <li>Answers verified FAQs with citations</li>
+              <li>Understands intent, language, and urgency</li>
+              <li>Escalates edge-cases to humans with full context</li>
             </ul>
           </div>
           <div class="text-4xl text-gray-400 select-none">→</div>
@@ -227,20 +487,52 @@
             <div class="card bg-yellow-700/40 border-yellow-300/20 text-white font-semibold">Escalated</div>
           </div>
         </div>
+        <p class="mt-6 text-sm text-gray-400">Demo: scripted flows and live Q&A available for admissions & exam queries.</p>
+      </div>
+    </section> -->
+
+    <!-- 2: Solution (fixed layout) -->
+    <section class="slide" data-slide="2">
+      <div class="slide-content tilt">
+        <h2 class="text-3xl md:text-5xl font-bold">Our Solution (How It Works)</h2>
+        <p class="mt-3 text-lg text-gray-300/90">AI agents that answer instantly, escalate smartly, and learn from real
+          conversations.</p>
+        <div
+          class="mt-8 grid grid-cols-1 md:grid-cols-[auto_40px_auto_40px_auto] items-center justify-center gap-4 md:gap-6">
+          <div class="card">
+            <p class="font-semibold">User Query</p>
+            <p class="text-sm text-gray-400">Web • WhatsApp • Phone (IVR) • Chat</p>
+          </div>
+          <div class="text-3xl text-gray-400 text-center md:text-left select-none">→</div>
+          <div class="card bg-blue-900/40 border-blue-300/20">
+            <h3 class="text-2xl font-bold text-blue-300">XOHOU AI Agent</h3>
+            <ul class="mt-4 text-left space-y-2 text-gray-200">
+              <li>Answers verified FAQs with citations</li>
+              <li>Understands intent, language, and urgency</li>
+              <li>Escalates edge-cases to humans with full context</li>
+            </ul>
+          </div>
+          <div class="text-3xl text-gray-400 text-center md:text-left select-none">→</div>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="card bg-emerald-700/40 border-emerald-300/20 text-white font-semibold">Resolved</div>
+            <div class="card bg-yellow-700/40 border-yellow-300/20 text-white font-semibold">Escalated</div>
+          </div>
+        </div>
       </div>
     </section>
-
-    <!-- Slide 3: Market -->
+    <!-- Slide 3: Market & Go-To-Market -->
     <section class="slide" data-slide="3">
       <div class="slide-content tilt">
-        <h2 class="text-3xl md:text-5xl font-bold">Why Now? The Perfect Storm for AI</h2>
-        <div class="mt-10 grid md:grid-cols-2 gap-8 items-center">
+        <h2 class="text-3xl md:text-5xl font-bold">Market & GTM</h2>
+        <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
           <div class="text-left space-y-4">
-            <p class="text-lg text-gray-300/90">GenAI adoption is accelerating while expectations for digital-first support keep rising.</p>
+            <p class="text-lg text-gray-300/90">GenAI adoption is accelerating. Institutions need cost-down + quality-up
+              support.</p>
             <ul class="list-disc list-inside text-lg text-gray-200 space-y-2">
-              <li>Accelerating adoption of GenAI</li>
-              <li>24/7 support is table stakes</li>
-              <li>Institutions must reduce costs</li>
+              <li><b>Beachhead:</b> University of Delhi (admissions/exams)</li>
+              <li><b>Then:</b> Other universities → SME helplines (“AI receptionist”)</li>
+              <li><b>Channels:</b> admin partnerships, innovation cells, campus pilots</li>
+              <li><b>Competitors:</b> generic chatbots; our edge is domain-tuned, escalation-first design</li>
             </ul>
           </div>
           <div class="chart-wrap"><canvas id="marketChart"></canvas></div>
@@ -251,98 +543,311 @@
     <!-- Slide 4: Business Model -->
     <section class="slide" data-slide="4">
       <div class="slide-content tilt">
-        <h2 class="text-3xl md:text-5xl font-bold">Our Business Model: A Phased Approach</h2>
-        <div class="mt-10 grid md:grid-cols-3 gap-6 text-left">
-          <div class="card hover:shadow-glow transition">
-            <h3 class="text-xl font-bold text-blue-300">Phase I</h3>
-            <p class="text-gray-400 mt-2">Pilot at University of Delhi for exam + student support.</p>
+        <h2 class="text-3xl md:text-5xl font-bold">Business Model</h2>
+        <div class="mt-8 grid md:grid-cols-3 gap-6 text-left">
+          <div class="card">
+            <h3 class="text-xl font-bold text-blue-300">Universities (SaaS)</h3>
+            <ul class="mt-2 text-gray-300 space-y-2">
+              <li>Tiered pricing by student volume</li>
+              <li>Setup + monthly subscription</li>
+              <li>Add-ons: voice IVR, WhatsApp, analytics</li>
+            </ul>
           </div>
-          <div class="card hover:shadow-glow transition">
-            <h3 class="text-xl font-bold text-blue-300">Phase II</h3>
-            <p class="text-gray-400 mt-2">SaaS roll-out to universities.</p>
+          <div class="card">
+            <h3 class="text-xl font-bold text-blue-300">SMEs (“AI receptionist”)</h3>
+            <ul class="mt-2 text-gray-300 space-y-2">
+              <li>Starter package for FAQs + call deflection</li>
+              <li>Per-seat or per-minute voice add-ons</li>
+              <li>Onboarding fee covers SOP mapping</li>
+            </ul>
           </div>
-          <div class="card hover:shadow-glow transition">
-            <h3 class="text-xl font-bold text-blue-300">Phase III</h3>
-            <p class="text-gray-400 mt-2">SME “AI receptionist” packages.</p>
+          <div class="card">
+            <h3 class="text-xl font-bold text-blue-300">Costs</h3>
+            <ul class="mt-2 text-gray-300 space-y-2">
+              <li>Model/API usage (voice + text)</li>
+              <li>Infra & monitoring</li>
+              <li>Implementation & support</li>
+            </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Slide 5: Pilot Plan -->
+
+    <!-- Slide 5: Traction / Pilot Plan -->
     <section class="slide" data-slide="5">
-      <div class="slide-content tilt">
-        <h2 class="text-3xl md:text-5xl font-bold">Focused Pilot at the University of Delhi</h2>
-        <p class="mt-3 text-lg text-gray-300/90">Toggle to compare projections.</p>
-        <div class="mt-6 flex flex-wrap gap-3 justify-center">
-          <button data-metric="resolution" class="metric-btn px-4 py-2 rounded-full bg-blue-500 text-white font-semibold shadow-soft">Query Resolution</button>
-          <button data-metric="response" class="metric-btn px-4 py-2 rounded-full bg-white/10 text-gray-200 border border-white/20">Response Time</button>
-          <button data-metric="satisfaction" class="metric-btn px-4 py-2 rounded-full bg-white/10 text-gray-200 border border-white/20">Satisfaction</button>
+      <div class="slide-content tilt text-center">
+        <h2 class="text-3xl md:text-5xl font-bold text-white">Pilot: University of Delhi</h2>
+        <p class="mt-3 text-lg text-gray-300/90">
+          Focus: admissions & exam operations. Toggle the KPI to see projected impact.
+        </p>
+
+        <!-- Metric Buttons -->
+        <div class="mt-8 flex flex-wrap justify-center gap-3">
+          <button data-metric="resolution"
+            class="metric-btn px-5 py-2.5 rounded-full bg-blue-600 text-white font-semibold shadow-md hover:bg-blue-700 transition">
+            Query Resolution
+          </button>
+          <button data-metric="response"
+            class="metric-btn px-5 py-2.5 rounded-full bg-white/10 text-gray-200 border border-white/20 hover:bg-white/20 transition">
+            Response Time
+          </button>
+          <button data-metric="satisfaction"
+            class="metric-btn px-5 py-2.5 rounded-full bg-white/10 text-gray-200 border border-white/20 hover:bg-white/20 transition">
+            Satisfaction
+          </button>
         </div>
-        <div class="chart-wrap mt-6"><canvas id="pilotChart"></canvas></div>
+
+        <!-- Chart -->
+        <div class="chart-wrap mt-8 bg-white/5 backdrop-blur-sm rounded-xl p-6 shadow-inner border border-white/10">
+          <canvas id="pilotChart" class="w-full h-64"></canvas>
+        </div>
+
+        <p class="mt-4 text-sm text-gray-400">
+          Example values based on comparable rollouts; validated during pilot.
+        </p>
       </div>
     </section>
+
+    <!-- Slide 5.2: Roadmap (AI backbone vision) -->
+    <section class="slide" data-slide="7">
+      <div class="slide-content tilt text-center">
+        <h2 class="text-3xl md:text-5xl font-bold text-white mb-10">Roadmap</h2>
+
+        <!-- Road -->
+        <div class="relative mx-auto w-full max-w-5xl">
+          <!-- Road surface -->
+          <div
+            class="h-3 bg-gradient-to-r from-gray-700 via-gray-800 to-gray-700 rounded-full relative overflow-hidden shadow-inner">
+            <!-- Dashed centerline -->
+            <div
+              class="absolute top-1/2 left-0 w-full border-t-2 border-dashed border-gray-500/40 transform -translate-y-1/2">
+            </div>
+          </div>
+
+          <!-- Milestones -->
+          <div class="mt-12 flex flex-col md:flex-row justify-between items-center gap-10 md:gap-0 text-gray-200">
+
+            <!-- Step 1 -->
+            <div class="flex flex-col items-center w-full md:w-1/4">
+              <div
+                class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center shadow-lg border-4 border-blue-300/30">
+                <span class="text-lg font-bold text-white">1</span>
+              </div>
+              <div class="mt-4">
+                <h3 class="text-lg font-semibold text-blue-300">Now → 3 months</h3>
+                <p class="text-gray-300 text-sm mt-1 max-w-xs mx-auto">
+                  POC at University of Delhi, mentorship via incubation, and first SME pilot.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="flex flex-col items-center w-full md:w-1/4">
+              <div
+                class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center shadow-lg border-4 border-blue-300/30">
+                <span class="text-lg font-bold text-white">2</span>
+              </div>
+              <div class="mt-4">
+                <h3 class="text-lg font-semibold text-blue-300">3 → 12 months</h3>
+                <p class="text-gray-300 text-sm mt-1 max-w-xs mx-auto">
+                  Operate as a service provider, refine from real usage, gather metrics & testimonials.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="flex flex-col items-center w-full md:w-1/4">
+              <div
+                class="w-12 h-12 bg-blue-400 rounded-full flex items-center justify-center shadow-lg border-4 border-blue-300/30">
+                <span class="text-lg font-bold text-white">3</span>
+              </div>
+              <div class="mt-4">
+                <h3 class="text-lg font-semibold text-blue-300">After 1 year (Seed)</h3>
+                <p class="text-gray-300 text-sm mt-1 max-w-xs mx-auto">
+                  Raise <b>$200k</b> to launch subscription platform, expand channels, and scale GTM.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="flex flex-col items-center w-full md:w-1/4">
+              <div
+                class="w-12 h-12 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-full flex items-center justify-center shadow-lg border-4 border-indigo-300/40">
+                <span class="text-lg font-bold text-white">4</span>
+              </div>
+              <div class="mt-4">
+                <h3 class="text-lg font-semibold text-indigo-300">Beyond 1 year</h3>
+                <p class="text-gray-200 text-sm mt-1 max-w-xs mx-auto">
+                  Expand to an ecosystem of AI-driven services — becoming the <b>AI backbone for SMEs</b>:
+                  voice/chat automation, data insights, and ops orchestration.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <p class="mt-10 text-sm text-gray-400 italic">
+          From student ops → scalable AI layer powering small & medium enterprises.
+        </p>
+      </div>
+    </section>
+
+
+
 
     <!-- Slide 6: Team -->
     <section class="slide" data-slide="6">
       <div class="slide-content tilt">
-        <h2 class="text-3xl md:text-5xl font-bold">The Visionaries Behind XOHOU</h2>
-        <div class="mt-10 grid md:grid-cols-2 gap-6">
-          <div class="card text-center">
-            <div class="w-24 h-24 rounded-full mx-auto grid place-items-center text-3xl font-bold mb-4"
-                 style="background:linear-gradient(135deg,#1d4ed8,transparent); color:#c7d2fe;">KS</div>
-            <h3 class="text-xl font-bold">Kuldeep Sharma</h3>
+        <h2 class="text-3xl md:text-5xl font-bold text-center">Team</h2>
+        <div class="mt-8 grid md:grid-cols-2 gap-8">
+
+          <!-- Kuldeep -->
+          <div class="card text-center bg-white/5 backdrop-blur-sm p-6 rounded-xl shadow-lg hover:shadow-xl transition">
+            <img src="assets/img/xohou/kuldeep.jpg" alt="Kuldeep Sharma"
+              class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-2 border-blue-400 shadow-md" />
+            <h3 class="text-xl font-bold text-white">Kuldeep Sharma</h3>
             <p class="text-blue-300 font-semibold">CEO & Co-founder</p>
-            <p class="mt-2 text-gray-400">B.A. (Hons.) Business Economics, University of Delhi (2026). Two-time best performer of the month.</p>
+            <p class="mt-2 text-gray-400 text-sm leading-relaxed">
+              B.A. (Hons.) Business Economics, University of Delhi (2026). Ops & partnerships.
+              Two-time best performer of the month.
+            </p>
           </div>
-          <div class="card text-center">
-            <div class="w-24 h-24 rounded-full mx-auto grid place-items-center text-3xl font-bold mb-4"
-                 style="background:linear-gradient(135deg,#2563eb,transparent); color:#c7d2fe;">DS</div>
-            <h3 class="text-xl font-bold">Deepankar Sharma</h3>
+
+          <!-- Deepankar -->
+          <div class="card text-center bg-white/5 backdrop-blur-sm p-6 rounded-xl shadow-lg hover:shadow-xl transition">
+            <img src="assets/img/xohou/deepankar.jpg" alt="Deepankar Sharma"
+              class="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-2 border-blue-400 shadow-md" />
+            <h3 class="text-xl font-bold text-white">Deepankar Sharma</h3>
             <p class="text-blue-300 font-semibold">CTO & Co-founder</p>
-            <p class="mt-2 text-gray-400">Tech architect with deep AI/ML expertise and a focus on scalable systems.</p>
+            <p class="mt-2 text-gray-400 text-sm leading-relaxed">
+              AI/ML & systems. Architecting reliable, scalable voice/chat agents with human-in-the-loop.
+            </p>
           </div>
+
         </div>
       </div>
     </section>
 
-    <!-- Slide 7: The Ask -->
+
+    <!-- Slide 7: Funding Ask -->
     <section class="slide" data-slide="7">
       <div class="slide-content tilt">
-        <h2 class="text-3xl md:text-5xl font-bold">Join Us in Building the Future of Support</h2>
-        <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
+        <h2 class="text-3xl md:text-5xl font-bold">Funding Ask & Use of Proceeds</h2>
+        <div class="mt-6 grid md:grid-cols-2 gap-6 text-left">
+          <div class="card bg-gradient-to-br from-blue-700/40 to-blue-600/20">
+            <h3 class="text-lg font-semibold mb-1 text-blue-200">Raise</h3>
+            <ul class="text-gray-200 space-y-2">
+              <li><b>Seed:</b> <span class="font-semibold text-white">$75,000</span></li>
+              <li><b>POC budget (India):</b> <span class="font-semibold text-white">₹5–6 lakh</span></li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3 class="text-lg font-semibold mb-2 text-blue-200">Use of Funds (illustrative)</h3>
+            <ul class="text-gray-300 space-y-2">
+              <li>• <b>POC at University of Delhi</b>: infra, model/API usage, integration — <i>₹2–3L</i></li>
+              <li>• <b>Business registration & compliance</b> — <i>₹0.5–0.8L</i></li>
+              <li>• <b>Mentorship & innovation cell programs</b> — <i>₹0.5–0.7L</i></li>
+              <li>• <b>Support real university issues</b> (admissions/exams, IVR, WhatsApp) — <i>₹1–1.5L</i></li>
+              <li>• <b>Remaining seed</b> for GTM hires, security, analytics, and voice channels (USD)</li>
+            </ul>
+          </div>
+        </div>
+        <p class="mt-4 text-sm text-gray-400">Note: Exact split refined with pilot learnings; runway target 9–12 months.
+        </p>
+      </div>
+    </section>
+
+    <!-- Slide 8: Call to Action -->
+    <section class="slide" data-slide="8">
+      <div class="slide-content tilt">
+        <h2 class="text-3xl md:text-5xl font-bold">Call to Action</h2>
+        <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
           <div class="card bg-gradient-to-br from-blue-700/60 to-blue-600/40 text-white">
-            <h3 class="text-lg font-semibold mb-1">Incubation & Mentorship</h3>
-            <p class="opacity-90">Access to DU innovation cells, mentors, and admin champions.</p>
+            <h3 class="text-lg font-semibold mb-1">Pilot Partnership</h3>
+            <p class="opacity-90">Admin sponsor + access to existing FAQs & SOPs.</p>
           </div>
           <div class="card bg-gradient-to-br from-blue-700/60 to-blue-600/40 text-white">
-            <h3 class="text-lg font-semibold mb-1">Infrastructure Support</h3>
-            <p class="opacity-90">Cloud credits, workspace, student dev teams.</p>
+            <h3 class="text-lg font-semibold mb-1">Mentorship</h3>
+            <p class="opacity-90">DU innovation cells, program guidance, user testing.</p>
           </div>
           <div class="card bg-gradient-to-br from-blue-700/60 to-blue-600/40 text-white">
-            <h3 class="text-lg font-semibold mb-1">Strategic Connections</h3>
-            <p class="opacity-90">Intros to administrators and tech heads.</p>
+            <h3 class="text-lg font-semibold mb-1">Infra Credits</h3>
+            <p class="opacity-90">Cloud, telephony/IVR minutes, messaging APIs.</p>
           </div>
           <div class="card bg-gradient-to-br from-blue-700/60 to-blue-600/40 text-white">
             <h3 class="text-lg font-semibold mb-1">Seed Funding</h3>
-            <p class="opacity-90">Capital to launch and validate the pilot.</p>
+            <p class="opacity-90">$75k to execute pilot → SaaS rollout.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Slide 8: Thank You -->
-    <section class="slide" data-slide="8">
-      <div class="slide-content tilt">
-        <h2 class="text-3xl md:text-5xl font-bold">Thank You</h2>
-        <div class="mt-8 text-lg md:text-xl text-gray-300">
-          <p>For more information, please visit:</p>
-          <p class="mt-4 font-semibold">
-            <a href="https://ideepankarsharma2003.github.io/" class="text-blue-300 underline decoration-blue-500/40 hover:decoration-blue-300">Deepankar Sharma Portfolio</a>
+    <!-- Slide 9: Thank You / Contact -->
+    <section class="slide" data-slide="9">
+      <div class="slide-content tilt text-center">
+        <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Thank You</h2>
+        <p class="text-lg md:text-xl text-gray-300">
+          Let’s make student & SME support fast, friendly, and scalable.
+        </p>
+
+        <!-- Contact Card -->
+        <div
+          class="mt-10 mx-auto max-w-md bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-xl space-y-4 border border-white/10">
+
+          <!-- LinkedIn (stylish button) -->
+          <a href="https://www.linkedin.com/in/kuldeep-sharma-313688250/" target="_blank"
+            class="flex items-center justify-center gap-2 bg-blue-600/90 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-full transition-all shadow-md hover:shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8h4V24h-4V8zm7.5 0h3.83v2.17h.05c.53-1 1.82-2.17 3.75-2.17 4.01 0 4.75 2.64 4.75 6.07V24h-4v-7.73c0-1.84-.03-4.2-2.56-4.2-2.56 0-2.95 2-2.95 4.07V24h-4V8z" />
+            </svg>
+            <span>Connect on LinkedIn</span>
+          </a>
+
+          <!-- Email -->
+          <p class="flex justify-center items-center gap-2 text-gray-300">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-400" fill="currentColor"
+              viewBox="0 0 24 24">
+              <path
+                d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" />
+            </svg>
+            <a href="mailto:ryuksharma2004@gmail.com" class="hover:text-blue-400 transition">
+              ryuksharma2004@gmail.com
+            </a>
+          </p>
+
+          <!-- Phone -->
+          <p class="flex justify-center items-center gap-2 text-gray-300">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-400" fill="currentColor"
+              viewBox="0 0 24 24">
+              <path
+                d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1.003 1.003 0 011.11-.21c1.21.49 2.53.76 3.88.76.55 0 1 .45 1 1V21c0 .55-.45 1-1 1C10.29 22 2 13.71 2 3c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.35.26 2.67.76 3.88.16.38.07.82-.21 1.11l-2.43 2.8z" />
+            </svg>
+            <a href="tel:9568782565" class="hover:text-blue-400 transition">+91 95687 82565</a>
+          </p>
+
+          <!-- Portfolio -->
+          <p class="flex justify-center items-center gap-2 text-gray-300">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-400" fill="currentColor"
+              viewBox="0 0 24 24">
+              <path d="M12 3L2 9v12h20V9L12 3zm0 2.18L18.6 9H5.4L12 5.18zM12 21v-6H4v6h8zm2 0h6v-6h-6v6z" />
+            </svg>
+            <a href="https://ideepankarsharma2003.github.io/" target="_blank"
+              class="underline decoration-blue-500/40 hover:decoration-blue-300 hover:text-blue-300 transition">
+              Deepankar Sharma • Portfolio
+            </a>
           </p>
         </div>
+
+        <p class="mt-6 text-sm text-gray-500">
+          <!-- Email / phone / handles can go here for investor shareouts. -->
+        </p>
       </div>
     </section>
+
+
 
   </div>
 
@@ -358,7 +863,8 @@
   <!-- Helper -->
   <div id="helper" class="helper">
     <div class="text-sm">
-      <span class="mr-2">Navigate:</span><kbd>←</kbd>/<kbd>→</kbd> &nbsp; <kbd>F</kbd> Fullscreen &nbsp; <kbd>A</kbd> Auto-advance &nbsp; <kbd>H</kbd> Hide
+      <span class="mr-2">Navigate:</span><kbd>←</kbd>/<kbd>→</kbd> &nbsp; <kbd>F</kbd> Fullscreen &nbsp; <kbd>A</kbd>
+      Auto-advance &nbsp; <kbd>H</kbd> Hide
     </div>
   </div>
 
@@ -395,11 +901,12 @@
         });
 
         const pct = ((currentSlide + 1) / slides.length) * 100;
-        progressEl.style.width = pct + '%';
-        counter.textContent = `${currentSlide + 1} / ${slides.length}`;
+        if (progressEl) progressEl.style.width = pct + '%';
+        if (counter) counter.textContent = `${currentSlide + 1} / ${slides.length}`;
 
         history.replaceState(null, '', `#slide-${currentSlide}`);
 
+        // init charts on the new indices (market = slide 3, pilot = slide 5)
         if (currentSlide === 3) initMarketChart();
         if (currentSlide === 5) initPilotChart();
       };
@@ -456,9 +963,9 @@
         }
       });
 
-      function toggleAuto(){
+      function toggleAuto() {
         autoOn = !autoOn;
-        if (autoOn){
+        if (autoOn) {
           autoTimer = setInterval(() => {
             if (currentSlide >= slides.length - 1) { toggleAuto(); return; }
             nextSlide();
@@ -478,56 +985,68 @@
       function initMarketChart() {
         if (marketChart) return;
         const canvas = document.getElementById('marketChart');
+        if (!canvas) return;
         const ctx = canvas.getContext('2d');
         const lineGrad = ctx.createLinearGradient(0, 0, 0, 360);
         lineGrad.addColorStop(0, '#93c5fd'); lineGrad.addColorStop(1, '#3b82f6');
         const fillGrad = gradient(ctx, 'rgba(96,165,250,.35)', 'rgba(59,130,246,.18)', 'rgba(59,130,246,0)');
         marketChart = new Chart(ctx, {
           type: 'line',
-          data: { labels: ['2023','2024','2025','2026','2027','2028'],
-            datasets: [{ label: 'Market Size ($ Billions)', data: [15.8,20.3,26.1,33.5,43.0,55.2],
-              borderColor: lineGrad, backgroundColor: fillGrad, tension:.35, fill:true, pointRadius:3, pointHoverRadius:5 }] },
+          data: {
+            labels: ['2023', '2024', '2025', '2026', '2027', '2028'],
+            datasets: [{
+              label: 'AI Support Market ($B)', data: [15.8, 20.3, 26.1, 33.5, 43.0, 55.2],
+              borderColor: lineGrad, backgroundColor: fillGrad, tension: .35, fill: true, pointRadius: 3, pointHoverRadius: 5
+            }]
+          },
           options: {
-            responsive:true, maintainAspectRatio:false,
-            plugins:{ legend:{display:false}, tooltip:{ backgroundColor:'rgba(2,6,23,.9)', borderColor:'rgba(148,163,184,.25)', borderWidth:1, titleColor:'#e5e7eb', bodyColor:'#e5e7eb' } },
-            scales:{ y:{ beginAtZero:true, grid:{color:'rgba(255,255,255,.08)'}, ticks:{color:'#e5e7eb'} },
-                     x:{ grid:{color:'rgba(255,255,255,.06)'}, ticks:{color:'#e5e7eb'} } }
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false }, tooltip: { backgroundColor: 'rgba(2,6,23,.9)', borderColor: 'rgba(148,163,184,.25)', borderWidth: 1, titleColor: '#e5e7eb', bodyColor: '#e5e7eb' } },
+            scales: {
+              y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,.08)' }, ticks: { color: '#e5e7eb' } },
+              x: { grid: { color: 'rgba(255,255,255,.06)' }, ticks: { color: '#e5e7eb' } }
+            }
           }
         });
       }
       function initPilotChart() {
         if (pilotChart) return;
         const canvas = document.getElementById('pilotChart');
+        if (!canvas) return;
         const ctx = canvas.getContext('2d');
         const baseData = {
           resolution: { label: 'Query Resolution Rate (%)', data: [25, 85] },
-          response:   { label: 'Average Response Time (Minutes)', data: [15, 0.5] },
-          satisfaction:{ label: 'Student Satisfaction (%)', data: [60, 92] }
+          response: { label: 'Avg Response Time (Minutes)', data: [15, 0.5] },
+          satisfaction: { label: 'Student Satisfaction (%)', data: [60, 92] }
         };
         const barGradA = gradient(ctx, 'rgba(203,213,225,.9)', 'rgba(148,163,184,.8)', 'rgba(100,116,139,.9)');
         const barGradB = gradient(ctx, 'rgba(96,165,250,1)', 'rgba(59,130,246,.9)', 'rgba(37,99,235,.95)');
         pilotChart = new Chart(ctx, {
-          type:'bar',
-          data:{ labels:['Without AI','With XOHOU AI (Projected)'],
-            datasets:[{ label: baseData.resolution.label, data: baseData.resolution.data, backgroundColor:[barGradA, barGradB], borderRadius:10 }] },
-          options:{
-            responsive:true, maintainAspectRatio:false,
-            plugins:{ legend:{display:false}, tooltip:{ backgroundColor:'rgba(2,6,23,.9)', borderColor:'rgba(148,163,184,.25)', borderWidth:1, titleColor:'#e5e7eb', bodyColor:'#e5e7eb' } },
-            scales:{ y:{ beginAtZero:true, grid:{color:'rgba(255,255,255,.08)'}, ticks:{color:'#e5e7eb'} },
-                     x:{ grid:{color:'rgba(255,255,255,.06)'}, ticks:{color:'#e5e7eb'} } }
+          type: 'bar',
+          data: {
+            labels: ['Without AI', 'With XOHOU AI (Projected)'],
+            datasets: [{ label: baseData.resolution.label, data: baseData.resolution.data, backgroundColor: [barGradA, barGradB], borderRadius: 10 }]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false }, tooltip: { backgroundColor: 'rgba(2,6,23,.9)', borderColor: 'rgba(148,163,184,.25)', borderWidth: 1, titleColor: '#e5e7eb', bodyColor: '#e5e7eb' } },
+            scales: {
+              y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,.08)' }, ticks: { color: '#e5e7eb' } },
+              x: { grid: { color: 'rgba(255,255,255,.06)' }, ticks: { color: '#e5e7eb' } }
+            }
           }
         });
         document.querySelectorAll('.metric-btn').forEach(btn => {
           btn.addEventListener('click', () => {
             document.querySelectorAll('.metric-btn').forEach(b => {
-              b.classList.remove('bg-blue-500','text-white','shadow-soft');
-              b.classList.add('bg-white/10','text-gray-200','border','border-white/20');
+              b.classList.remove('bg-blue-500', 'text-white', 'shadow-soft');
+              b.classList.add('bg-white/10', 'text-gray-200', 'border', 'border-white/20');
             });
-            btn.classList.add('bg-blue-500','text-white','shadow-soft');
-            btn.classList.remove('bg-white/10','border','border-white/20');
+            btn.classList.add('bg-blue-500', 'text-white', 'shadow-soft');
+            btn.classList.remove('bg-white/10', 'border', 'border-white/20');
 
             const metric = btn.dataset.metric;
-            pilotChart.data.datasets[0].data  = baseData[metric].data;
+            pilotChart.data.datasets[0].data = baseData[metric].data;
             pilotChart.data.datasets[0].label = baseData[metric].label;
             pilotChart.update();
           });
@@ -555,5 +1074,60 @@
       });
     });
   </script>
+
+  <!-- PDF Export Dependencies -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script>
+    // PDF Export handler (clean export)
+    document.addEventListener('DOMContentLoaded', () => {
+      const pdfBtn = document.getElementById('pdfBtn');
+      if (!pdfBtn) return;
+
+      pdfBtn.addEventListener('click', async () => {
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({ orientation: 'landscape', unit: 'px', format: 'a4' });
+        const slides = [...document.querySelectorAll('.slide')];
+        pdfBtn.textContent = '⏳ Generating...';
+
+        // Temporarily disable animations and blur for crisp capture
+        document.body.style.overflow = 'visible';
+        document.querySelectorAll('.slide-content').forEach(s => {
+          s.style.backdropFilter = 'none';
+          s.style.transition = 'none';
+        });
+
+        let first = true;
+        for (const slide of slides) {
+          slide.classList.add('active');
+          window.scrollTo(0, 0);
+          await new Promise(r => setTimeout(r, 150));
+
+          const canvas = await html2canvas(slide, {
+            scale: 2,
+            backgroundColor: '#0b1220',
+            useCORS: true
+          });
+
+          const img = canvas.toDataURL('image/png');
+          const w = pdf.internal.pageSize.getWidth();
+          const h = pdf.internal.pageSize.getHeight();
+          const ratio = Math.min(w / canvas.width, h / canvas.height);
+          const imgW = canvas.width * ratio;
+          const imgH = canvas.height * ratio;
+
+          if (!first) pdf.addPage();
+          pdf.addImage(img, 'PNG', (w - imgW) / 2, (h - imgH) / 2, imgW, imgH);
+          first = false;
+        }
+
+        pdf.save('XOHOU_PitchDeck.pdf');
+        pdfBtn.textContent = '📄 Download PDF';
+      });
+    });
+  </script>
+
 </body>
+
 </html>
