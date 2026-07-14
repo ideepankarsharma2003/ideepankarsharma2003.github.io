@@ -985,7 +985,9 @@ section {
   box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.12);
 }
 
-.contact .info i {
+.contact .info .address>i,
+.contact .info .email>i,
+.contact .info .phone>i {
   font-size: 20px;
   color: #149ddd;
   float: left;
@@ -1025,7 +1027,7 @@ section {
 .contact .info .social-links a {
   font-size: 18px;
   display: inline-block;
-  background: #333;
+  background: var(--teal);
   color: #fff;
   line-height: 1;
   padding: 8px 0;
@@ -1038,7 +1040,7 @@ section {
 }
 
 .contact .info .social-links a:hover {
-  background: #149ddd;
+  background: var(--coral);
   color: #fff;
 }
 
@@ -1924,7 +1926,9 @@ section {
   background-color: var(--coral);
 }
 
-.contact .info i {
+.contact .info .address>i,
+.contact .info .email>i,
+.contact .info .phone>i {
   color: var(--teal);
   background: rgba(15, 118, 110, 0.12);
 }
