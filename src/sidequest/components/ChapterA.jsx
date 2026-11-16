@@ -47,17 +47,17 @@ export default function ChapterA() {
         </Reveal>
 
         <Reveal delay={0.1} className="mt-12">
-          <div className="flex flex-col md:flex-row md:items-stretch gap-3">
+          <div className="flex flex-col xl:flex-row xl:items-stretch gap-3">
             {C.pipeline.map((p, i) => (
               <div
                 key={p.t}
-                className="flex flex-col md:flex-row md:items-center flex-1 gap-3"
+                className="flex flex-col xl:flex-row xl:items-center flex-1 gap-3"
               >
                 <PipelineNode t={p.t} s={p.s} i={i} />
                 {i < C.pipeline.length - 1 && (
                   <motion.svg
                     viewBox="0 0 20 20"
-                    className="w-4 h-4 shrink-0 self-center md:rotate-0 rotate-90 text-sq-subtle"
+                    className="w-4 h-4 shrink-0 self-center xl:rotate-0 rotate-90 text-sq-subtle"
                     initial={false}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}

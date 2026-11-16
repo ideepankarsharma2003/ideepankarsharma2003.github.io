@@ -1,28 +1,31 @@
+import { useEffect } from "react";
 import Hero from "../sidequest/components/Hero.jsx";
 import Marquee from "../sidequest/components/Marquee.jsx";
-import Experiment from "../sidequest/components/Experiment.jsx";
-import ChapterA from "../sidequest/components/ChapterA.jsx";
-import ChapterB from "../sidequest/components/ChapterB.jsx";
 import ChapterC from "../sidequest/components/ChapterC.jsx";
 import Proof from "../sidequest/components/Proof.jsx";
+import {
+  AboutPerson,
+  CommunityLife,
+} from "../sidequest/components/Personal.jsx";
 import { PostCard } from "../components/Cards.jsx";
 import posts from "../data/posts.json";
-import testimonials from "../data/testimonials.json";
 
 export default function Home() {
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash === "#intelligence" || hash === "#sidequest")
+      window.location.replace(`/work.html${hash}`);
+    if (hash === "#resume") window.location.replace("/resume.html");
+  }, []);
+
   return (
     <main id="main" className="sq-home">
       <div id="hero">
         <Hero />
       </div>
       <Marquee />
-      <Experiment />
-      <ChapterA />
-      <ChapterB />
+      <AboutPerson />
       <ChapterC />
-      <div id="portfolio">
-        <Proof />
-      </div>
       <section className="sq-section sq-journal" id="journal">
         <div className="sq-wrap">
           <div className="section-heading">
@@ -31,7 +34,9 @@ export default function Home() {
               <h2>
                 Notes from <em>everywhere.</em>
               </h2>
-              <p>Things I build, places I go, and thoughts along the way.</p>
+              <p>
+                Places I go, things I’m learning, and thoughts I want to keep.
+              </p>
             </div>
             <a className="text-link" href="/blog.html">
               Read the journal ↗
@@ -44,20 +49,12 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="sq-section" id="about">
-        <div className="sq-wrap testimonial-section">
-          <p className="eyebrow">In good company</p>
-          {testimonials.map((person) => (
-            <details key={person.name}>
-              <summary>
-                {person.name}
-                <span>{person.role}</span>
-              </summary>
-              <blockquote>{person.quote}</blockquote>
-            </details>
-          ))}
+      <CommunityLife />
+      <div id="portfolio">
+        <div id="making">
+          <Proof />
         </div>
-      </section>
+      </div>
     </main>
   );
 }

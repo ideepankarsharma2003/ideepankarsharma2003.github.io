@@ -2,12 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import ThemeToggle from "./ThemeToggle.jsx";
 
 const links = [
-  ["Intelligence", "/index.html#intelligence"],
-  ["Connection", "/index.html#connection"],
+  ["About", "/index.html#about"],
   ["Films", "/index.html#curiosity"],
-  ["Work", "/work.html"],
   ["Journal", "/blog.html"],
-  ["Resume", "/resume.html"],
+  ["Community", "/index.html#connection"],
+  ["Work", "/work.html"],
 ];
 
 export function Header({ active }) {
@@ -85,14 +84,14 @@ export function Footer() {
   return (
     <footer className="sq-footer" id="contact">
       <div className="sq-wrap">
-        <p className="eyebrow">Have something in mind?</p>
+        <p className="eyebrow">A question, a thought, a hello</p>
         <h2>
-          Give me
+          Say hello.
           <br />
-          <em>a problem.</em>
+          <em>Swap a story.</em>
         </h2>
         <a className="btn-primary" href="mailto:deepankarsharma2003@gmail.com">
-          Let’s build something ↗
+          Send me a note ↗
         </a>
         <div className="sq-footer-contacts">
           <div>
@@ -150,7 +149,7 @@ export function Footer() {
         </p>
         <div className="sq-footer-bottom">
           <span>© 2026 Deepankar Sharma</span>
-          <span>Built in Uttarakhand. Always exploring.</span>
+          <span>From Uttarakhand. Still exploring.</span>
           <a href="#main">Back to top ↑</a>
         </div>
       </div>

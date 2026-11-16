@@ -6,20 +6,6 @@ import { Eyebrow } from "./bits";
 
 const H = CONTENT.hero;
 
-function fancy(text) {
-  const parts = text.split("‘what if’");
-  if (parts.length === 1) return text;
-  return (
-    <>
-      {parts[0]}
-      <em className="font-serifit italic font-normal text-sq-accent">
-        ‘what if’
-      </em>
-      {parts[1]}
-    </>
-  );
-}
-
 const objectIcons = {
   terminal: (
     <svg viewBox="0 0 40 40" className="w-10 h-10" aria-hidden="true">
@@ -148,7 +134,7 @@ export default function Hero() {
           >
             <img
               src={H.portraitBig}
-              alt="Deepankar Sharma — builder, community maker, filmmaker"
+              alt="Deepankar Sharma outdoors in the mountains"
               className="w-full aspect-[4/5] object-cover"
               width="640"
               height="800"
@@ -222,7 +208,7 @@ export default function Hero() {
 
           <h1 className="mt-6 font-display font-semibold tracking-tight leading-[0.98] text-[clamp(2.7rem,7.2vw,6.4rem)]">
             <span className="mask-line">
-              <motion.span {...line(0)}>{fancy(H.lineA)}</motion.span>
+              <motion.span {...line(0)}>{H.lineA}</motion.span>
             </span>
             <span className="mask-line">
               <motion.span {...line(1)}>{H.lineB}</motion.span>
@@ -263,7 +249,7 @@ export default function Hero() {
             <Magnetic>
               <button
                 data-testid="hero-cta-primary"
-                onClick={() => ui.goTo("sidequest")}
+                onClick={() => ui.goTo("about")}
                 className="btn-primary"
               >
                 {H.primaryCta}
@@ -282,7 +268,7 @@ export default function Hero() {
             <Magnetic>
               <button
                 data-testid="hero-cta-secondary"
-                onClick={() => ui.goTo("intelligence")}
+                onClick={() => ui.goTo("curiosity")}
                 className="btn-ghost"
               >
                 {H.secondaryCta}
@@ -305,17 +291,6 @@ export default function Hero() {
               {H.portraitName} — {H.portraitLocation}
             </p>
           </motion.div>
-
-          <motion.button
-            data-testid="hero-skip"
-            initial={false}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 1.1 }}
-            onClick={() => ui.goTo("sidequest")}
-            className="mt-12 font-mono text-[11px] tracking-[0.25em] uppercase text-sq-subtle hover:text-sq-accent transition-colors link-underline"
-          >
-            {H.skip} ↓
-          </motion.button>
         </div>
       </div>
     </section>

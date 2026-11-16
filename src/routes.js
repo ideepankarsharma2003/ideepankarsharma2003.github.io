@@ -14,7 +14,7 @@ export function getPage(path) {
       kind: "home",
       title: "SIDEQUEST",
       description:
-        "Deepankar Sharma’s playable portfolio. AI engineering, Neighborly, films from Kumaon, selected projects, and an open journal.",
+        "Films, travel, painting, technology, community, and thoughts along the way. A personal corner of the internet by Deepankar Sharma.",
     },
     "blog.html": {
       kind: "journal",

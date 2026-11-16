@@ -17,7 +17,7 @@ Open http://127.0.0.1:5173. To check the production site, run `npm run build` fo
 
 The theme initially follows the device preference. The header toggle remembers an explicit choice across visits and pages. Both themes cover the SIDEQUEST chapters, interactive experiment, films, archive, article pages, and editor.
 
-The homepage uses the SIDEQUEST hero and mountain portrait, the gathering experiment, AI and Neighborly chapters, and creator films. Source content and components live under `src/sidequest/`. Public review badges and duplicate project grids have been removed. YouTube stills are stored locally and videos load when selected.
+The homepage introduces Deepankar through his personal story, painting, backpacking, films, writing, community gatherings, and selected projects. The Work page contains the full archive, expandable AI and Neighborly stories, the gathering experiment, and testimonials. Source content and components live under `src/sidequest/`. YouTube stills are stored locally and videos load when selected.
 
 - `src/pages/` contains the journal, archive, resume, case studies, articles, and writing desk.
 - `src/components/` contains navigation, theme controls, cards, and safe Markdown rendering.

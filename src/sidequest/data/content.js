@@ -2,9 +2,9 @@ export const CONTENT = {
   version: "2026.02.14",
   meta: {
     title: "SIDEQUEST — Deepankar Sharma",
-    tagline: "I turn ‘what if’ into something you can try.",
+    tagline: "Deepankar Sharma — still exploring.",
     description:
-      "A playable portrait of a curious builder. AI engineering, Neighborly, and a Kumaon camera — three playable chapters.",
+      "Films, travel, painting, technology, community, and thoughts along the way. A personal corner of the internet by Deepankar Sharma.",
   },
   contacts: {
     email: "deepankarsharma2003@gmail.com",
@@ -13,50 +13,47 @@ export const CONTENT = {
     github: "https://github.com/ideepankarsharma2003",
   },
   hero: {
-    eyebrow: "DEEPANKAR SHARMA — A PLAYABLE PORTRAIT",
-    lineA: "I turn ‘what if’",
-    lineB: "into something",
-    lineC: "you can try.",
-    primaryCta: "Give me a problem",
-    secondaryCta: "Explore my sidequests",
+    eyebrow: "A PERSONAL CORNER OF THE INTERNET",
+    lineA: "Hi, I’m",
+    lineB: "Deepankar.",
+    lineC: "Still exploring.",
+    primaryCta: "A little about me",
+    secondaryCta: "Watch a film",
     skip: "Skip the intro",
-    strap: "AI ENGINEERING ✳ NEIGHBORLY ✳ KUMAON",
+    strap: "FILMS ✳ PAINTING ✳ BACKPACKING ✳ CODE",
     portrait: "/assets/img/sidequest/avatar.jpg",
     portraitBig: "/assets/img/sidequest/portrait.jpg",
     portraitName: "Deepankar Sharma",
     portraitLocation: "HADUCHAUR · HALDWANI · NAINITAL · UTTARAKHAND",
-    portraitRoles: "BUILDS SYSTEMS · COMMUNITIES · FILMS",
-    portraitCaption: "INTROVERT WHO LEARNED TO SHOW UP.",
+    portraitRoles: "BACKPACKER · FILMMAKER · PAINTER · BUILDER",
+    portraitCaption: "A LITTLE FURTHER FROM THE SCREEN.",
     subline:
-      "I grew up an introvert and taught myself how to socialize — now I build systems for a living and make things that bring people together. The camera comes along.",
+      "I make things, head out with a backpack, and bring a camera along. Here are the places, people, ideas, and little experiments that make up my life.",
     objects: [
       {
         id: "terminal",
-        caption: "BUILD INTELLIGENCE.",
-        target: "intelligence",
-        hint: "Chapter A",
+        caption: "THINGS I MAKE.",
+        target: "making",
       },
       {
         id: "chairs",
-        caption: "BUILD CONNECTION.",
+        caption: "PEOPLE & COMMUNITY.",
         target: "connection",
-        hint: "Chapter B",
       },
       {
         id: "camera",
-        caption: "FOLLOW CURIOSITY.",
+        caption: "FILMS & PLACES.",
         target: "curiosity",
-        hint: "Chapter C",
       },
     ],
   },
   marquee: [
-    "BUILD INTELLIGENCE",
-    "BUILD CONNECTION",
-    "FOLLOW CURIOSITY",
-    "GIVE ME A PROBLEM",
-    "DON’T READ MY RÉSUMÉ",
-    "TURN ‘WHAT IF’ INTO A PROTOTYPE",
+    "TAKE A WALK",
+    "MAKE SOMETHING",
+    "FOLLOW A QUESTION",
+    "BRING A CAMERA",
+    "MEET SOMEONE",
+    "TRY A DIFFERENT ROUTE",
   ],
   scenario: {
     eyebrow: "THE INTERACTIVE SIDEQUEST",
@@ -545,5 +542,31 @@ export const CONTENT = {
         "HUMAN IDEAS ✳ INTELLIGENT SYSTEMS ✳ DESIGNED WITH INTENT ✳ ENGINEERED TO WORK",
     },
     note: "Every film and link comes from Deepankar’s own channels and portfolio site. No invented metrics, no follower counts.",
+  },
+  personal: {
+    introduction:
+      "I’m from Uttarakhand. I paint, travel with a backpack, make films, and build software. My interests tend to follow me from the screen to the mountains and back again.",
+    story:
+      "I grew up an introvert and taught myself how to socialize. Making things together is one way I’ve found to connect with people. That’s a thread running through my films, community gatherings, and some of the things I build.",
+    interests: [
+      {
+        title: "Painting",
+        text: "Color, texture, and a different way to make something.",
+      },
+      {
+        title: "Backpacking",
+        text: "Mountain air, long walks, and the unexpected detour.",
+      },
+      {
+        title: "Filmmaking",
+        text: "Looking a little closer at the places I go.",
+      },
+      {
+        title: "Building",
+        text: "Following an idea far enough to try it out.",
+      },
+    ],
+    community:
+      "A shared activity can make a first conversation easier. I like creating small reasons for people to meet—an art session, a walk, a chance to help out together.",
   },
 };
