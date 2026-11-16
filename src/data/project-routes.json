@@ -1,0 +1,74 @@
+{
+  "portfolio-details-MyToDo.html": {
+    "title": "MyTodo: Flask App",
+    "category": "projects"
+  },
+  "portfolio-details-webpage-chatbot.html": {
+    "title": "PDF & Webcontent Chatbot",
+    "category": "projects"
+  },
+  "portfolio-details-ML-TF-GCP.html": {
+    "title": "Machine Learning with TensorFlow on Google Cloud",
+    "category": "certifications"
+  },
+  "portfolio-details-Navikarnam.html": {
+    "title": "Navikarnam-2023",
+    "category": "kudos"
+  },
+  "portfolio-details-Chicken Disease Classification using Fecal Images.html": {
+    "title": "Chicken Disease Classification using Fecal Images",
+    "category": "projects"
+  },
+  "portfolio-details-GoogleDataAnalytics.html": {
+    "title": "Google Data Analytics Professional Certificate",
+    "category": "certifications"
+  },
+  "portfolio-details-BGE-GTE-Embeddings.html": {
+    "title": "State-of-the-Art Embedding Generation with GTE and BGE Models",
+    "category": "projects"
+  },
+  "portfolio-details-MovieRecommendation.html": {
+    "title": "Movie Recommendation System",
+    "category": "projects"
+  },
+  "portfolio-details.html": {
+    "title": "This is an example of portfolio detail\n              \n                Autem ipsu",
+    "category": "projects"
+  },
+  "portfolio-details-ProductRecommendation.html": {
+    "title": "Fashion Products Recommender System",
+    "category": "projects"
+  },
+  "portfolio-details-MachineLearningSpecialization.html": {
+    "title": "Machine Learning Specialization",
+    "category": "certifications"
+  },
+  "portfolio-details-DeepLearningSpecialization.html": {
+    "title": "Deep Learning Specialization",
+    "category": "certifications"
+  },
+  "portfolio-details-TextSummarization.html": {
+    "title": "Text Summarizer",
+    "category": "projects"
+  },
+  "portfolio-details-WhatsappAnalyzer.html": {
+    "title": "Whatsapp Chat Analyzer",
+    "category": "projects"
+  },
+  "portfolio-details-SmartSurveillance.html": {
+    "title": "Smart Surveillance with Computer Vision",
+    "category": "projects"
+  },
+  "portfolio-details-TextGenerator.html": {
+    "title": "Conversational Text Generator using GRU-RNN",
+    "category": "projects"
+  },
+  "portfolio-details-BCA-StudyMaterials.html": {
+    "title": "BCA Study Materials",
+    "category": "notes"
+  },
+  "portfolio-details-CampusGem.html": {
+    "title": "Campus Gem 2023",
+    "category": "kudos"
+  }
+}

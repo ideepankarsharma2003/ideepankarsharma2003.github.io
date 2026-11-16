@@ -1,0 +1,35 @@
+[
+  {
+    "slug": "a-slower-way-to-see-the-mountains",
+    "title": "A slower way to see the mountains",
+    "category": "travel",
+    "date": "2026-11-16",
+    "excerpt": "A little mountain air, an unhurried walk, and room for the unexpected. A travel-story starter for the next escape.",
+    "cover": "assets/img/sidequest/films/vFV3MOdJyMY.jpg",
+    "coverAlt": "Naini Peak trek film still from Sharma G Online",
+    "sample": true,
+    "body": "Some places ask you to slow down. The mountains have a way of doing that before you have even put your bag down.\n\nThis is a sample travel story. Replace these words with the places you have been, the people you met, and the small details you want to remember.\n\n## Start with a moment\n\nThe best part of a trip is sometimes a tiny detail. Steam rising from a cup of tea. The turn where the valley opens up. A conversation that makes you forget to check your phone.\n\nOpen your story there. Give the reader something they can see, hear, or feel before you get to the itinerary.\n\n> Leave a little room in the plan for the part you could never have planned.\n\n## The route, in your own words\n\nUse this space for the practical details that you would tell a friend.\n\n- Where the journey began\n- How you got there\n- Where you stayed and what you ate\n- The small detour you would take again\n\n## A few things worth remembering\n\nAdd your photographs between paragraphs. Write the names of places while they are still fresh. Include what the journey felt like, alongside what it looked like.\n\nThe writing desk has a travel template with space for an itinerary, photos, and the details you would want for a return trip.\n\n---\n\n*Cover from the Naini Peak trek film on Sharma G Online.*"
+  },
+  {
+    "slug": "from-prototype-to-production-ai",
+    "title": "From a promising prototype to useful AI",
+    "category": "tech",
+    "date": "2026-11-16",
+    "excerpt": "A notebook for the engineering decisions between an impressive demo and a system someone can rely on.",
+    "cover": "assets/img/journal/workspace.jpg",
+    "coverAlt": "Deepankar at a desk with several screens showing code",
+    "sample": true,
+    "body": "A prototype answers an important question. Can this idea work? The next step is understanding how it behaves when real inputs, real constraints, and real people enter the picture.\n\nThis sample article shows how a technical post can combine explanation, code, and engineering notes. Replace it with a deep dive from your own work.\n\n## Describe the problem first\n\nGive the reader enough context to follow the decisions. Who uses the system? What are they trying to do? Which constraints shape the solution?\n\nA retrieval system, for example, needs a clear definition of a useful result before the choice of an embedding model becomes meaningful.\n\n## Make the workflow visible\n\nAn explicit, testable flow makes it easier to reason about failures.\n\n```python\ndef answer_question(question, retriever, generator):\n    documents = retriever.search(question)\n    return generator.answer(\n        question=question,\n        context=documents,\n    )\n```\n\nThis is illustrative pseudocode. A real implementation also needs defined interfaces and appropriate error handling.\n\n## Write down the trade-offs\n\n- What did you measure?\n- Which approach did you choose, and why?\n- What failed during development?\n- What would you change in a second version?\n\n## Close with what you learned\n\nA technical article becomes more valuable when the reader can understand the reasoning behind the implementation. Include the experiments and decisions that changed your understanding.\n\nThat is the kind of engineering notebook this journal is built for."
+  },
+  {
+    "slug": "make-room-for-the-detour",
+    "title": "Make room for the detour",
+    "category": "notes",
+    "date": "2026-11-16",
+    "excerpt": "A small space for life beyond the screen. Observations, half-formed ideas, and things worth paying attention to.",
+    "cover": "assets/img/journal/portrait.jpg",
+    "coverAlt": "Deepankar standing on a quiet beach",
+    "sample": true,
+    "body": "A personal website can hold more than a list of finished projects. It can make room for the interests, questions, and small observations that shape a person\u2019s work.\n\nThis is a sample personal note. Use it as a starting point for your own voice.\n\n## Pay attention to the small things\n\nA sketch that never becomes a painting. A conversation on a long journey. A thought that arrives when you finally step away from your desk. Some ideas are worth keeping before you know what to do with them.\n\n> You can write something down before you have it all figured out.\n\n## Begin anywhere\n\nYour next note could be a few paragraphs about what you are reading, a photograph with a story behind it, or a lesson that took longer than expected to learn.\n\nThe personal-note template keeps the structure simple. A moment, a reflection, and something to carry forward.\n\nThere is always room for another page."
+  }
+]

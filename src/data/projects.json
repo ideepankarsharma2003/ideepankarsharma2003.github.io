@@ -1,0 +1,163 @@
+[
+  {
+    "title": "Neighborly",
+    "image": "assets/img/journal/projects/project-1.jpg",
+    "href": "https://yourneighborly.com/app",
+    "category": "flagship",
+    "description": "Real-world neighbor discovery, local activities, events, and community\n                  engagement."
+  },
+  {
+    "title": "Redegades",
+    "image": "assets/img/journal/projects/project-2.jpg",
+    "href": "#resume",
+    "category": "flagship",
+    "description": "AI business copilot for decision intelligence, meeting memory, and\n                  cross-application automation."
+  },
+  {
+    "title": "LabThunder",
+    "image": "assets/img/journal/projects/project-3.jpg",
+    "href": "https://labthunder.io",
+    "category": "flagship",
+    "description": "Multi-agent lab workflows for equipment discovery, routing, and\n                  decision support."
+  },
+  {
+    "title": "Shotify.ai",
+    "image": "assets/img/journal/projects/project-4.jpg",
+    "href": "https://shotify.ai",
+    "category": "flagship",
+    "description": "Short-form video generation and publishing pipeline built on Django and\n                  cloud infrastructure."
+  },
+  {
+    "title": "RedSerp.com",
+    "image": "assets/img/journal/projects/project-5.jpg",
+    "href": "https://redserp.com",
+    "category": "flagship",
+    "description": "Reddit trend intelligence with automated ingestion, topic discovery, and\n                  ML content insights."
+  },
+  {
+    "title": "Paperbot.AI",
+    "image": "assets/img/journal/projects/project-6.jpg",
+    "href": "https://paperbot.ai",
+    "category": "flagship",
+    "description": "GPT-4, Whisper, LangChain, and CrewAI system for turning voice and notes\n                  into long-form content."
+  },
+  {
+    "title": "Campus Gem 2023",
+    "image": "assets/img/journal/projects/project-7.jpg",
+    "href": "portfolio-details-CampusGem.html",
+    "category": "kudos",
+    "description": ""
+  },
+  {
+    "title": "Navikarnam-2023",
+    "image": "assets/img/journal/projects/project-8.jpg",
+    "href": "portfolio-details-Navikarnam.html",
+    "category": "kudos",
+    "description": ""
+  },
+  {
+    "title": "PDF & Webcontent Chatbot",
+    "image": "assets/img/journal/projects/project-9.jpg",
+    "href": "portfolio-details-webpage-chatbot.html",
+    "category": "projects",
+    "description": ""
+  },
+  {
+    "title": "Chicken Disease Classification using Fecal Images",
+    "image": "assets/img/journal/projects/project-10.jpg",
+    "href": "portfolio-details-Chicken Disease Classification using Fecal Images.html",
+    "category": "projects",
+    "description": ""
+  },
+  {
+    "title": "Movie Recommendation System",
+    "image": "assets/img/journal/projects/project-11.jpg",
+    "href": "portfolio-details-MovieRecommendation.html",
+    "category": "projects",
+    "description": ""
+  },
+  {
+    "title": "State-of-the-Art Embedding Generation with GTE and BGE Models",
+    "image": "assets/img/journal/projects/project-12.jpg",
+    "href": "portfolio-details-BGE-GTE-Embeddings.html",
+    "category": "projects",
+    "description": ""
+  },
+  {
+    "title": "Text Summarizer",
+    "image": "assets/img/journal/projects/project-13.jpg",
+    "href": "portfolio-details-TextSummarization.html",
+    "category": "projects",
+    "description": ""
+  },
+  {
+    "title": "MyTodo: Flask App",
+    "image": "assets/img/journal/projects/project-14.jpg",
+    "href": "portfolio-details-MyToDo.html",
+    "category": "projects",
+    "description": ""
+  },
+  {
+    "title": "Fashion Products Recommender System",
+    "image": "assets/img/journal/projects/project-15.jpg",
+    "href": "portfolio-details-ProductRecommendation.html",
+    "category": "projects",
+    "description": ""
+  },
+  {
+    "title": "Machine Learning Specialization",
+    "image": "assets/img/journal/projects/project-16.jpg",
+    "href": "portfolio-details-MachineLearningSpecialization.html",
+    "category": "certifications",
+    "description": ""
+  },
+  {
+    "title": "Conversational Text Generator using GRU-RNN",
+    "image": "assets/img/journal/projects/project-17.jpg",
+    "href": "portfolio-details-TextGenerator.html",
+    "category": "projects",
+    "description": ""
+  },
+  {
+    "title": "Whatsapp Chat Analyzer",
+    "image": "assets/img/journal/projects/project-18.jpg",
+    "href": "portfolio-details-WhatsappAnalyzer.html",
+    "category": "projects",
+    "description": ""
+  },
+  {
+    "title": "Smart Surveillance with Computer Vision",
+    "image": "assets/img/journal/projects/project-19.jpg",
+    "href": "portfolio-details-SmartSurveillance.html",
+    "category": "projects",
+    "description": ""
+  },
+  {
+    "title": "Deep Learning Specialization",
+    "image": "assets/img/journal/projects/project-20.jpg",
+    "href": "portfolio-details-DeepLearningSpecialization.html",
+    "category": "certifications",
+    "description": ""
+  },
+  {
+    "title": "Google Data Analytics Professional Certificate",
+    "image": "assets/img/journal/projects/project-21.jpg",
+    "href": "portfolio-details-GoogleDataAnalytics.html",
+    "category": "certifications",
+    "description": ""
+  },
+  {
+    "title": "Machine Learning with TensorFlow on Google Cloud",
+    "image": "assets/img/journal/projects/project-22.jpg",
+    "href": "portfolio-details-ML-TF-GCP.html",
+    "category": "certifications",
+    "description": ""
+  },
+  {
+    "title": "BCA Study Materials",
+    "image": "assets/img/journal/projects/project-23.jpg",
+    "href": "portfolio-details-BCA-StudyMaterials.html",
+    "category": "notes",
+    "description": ""
+  }
+]

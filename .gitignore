@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.prerender/
+.DS_Store
+*.local
+.post-publish.lock/
+/sidequest/
