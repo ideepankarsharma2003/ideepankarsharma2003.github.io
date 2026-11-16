@@ -141,7 +141,7 @@ export default function Hero() {
               fetchPriority="high"
             />
             <div
-              className="absolute inset-0 bg-gradient-to-t from-ink/95 via-ink/10 to-transparent"
+              className="sq-portrait-shade absolute inset-0 bg-gradient-to-t from-ink/95 via-ink/10 to-transparent"
               aria-hidden="true"
             />
             <span

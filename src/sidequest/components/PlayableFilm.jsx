@@ -60,7 +60,7 @@ export default function PlayableFilm({
                 }}
                 alt={title || "Film still"}
                 loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="absolute inset-0 w-full h-full object-contain"
               />
             ) : (
               <span className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-sq-panel via-sq-surface to-ink">
@@ -92,7 +92,7 @@ export default function PlayableFilm({
                 }}
                 alt={title || "Film still"}
                 loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="absolute inset-0 w-full h-full object-contain"
               />
             ) : (
               <span className="absolute inset-0 bg-gradient-to-br from-sq-panel via-sq-surface to-ink" />

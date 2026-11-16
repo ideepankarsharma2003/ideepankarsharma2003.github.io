@@ -818,3 +818,77 @@ h3 {
     display: none;
   }
 }
+
+@media (max-width: 800px) {
+  .sq-hero [data-testid="hero-portrait"] > img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: auto;
+    object-fit: contain;
+  }
+  .sq-hero .sq-portrait-shade,
+  .sq-hero [data-testid^="hero-chip-"] {
+    display: none;
+  }
+  .sq-hero .sq-image-caption {
+    position: static;
+    padding: 20px;
+    background: rgb(var(--sq-surface));
+    border-top: 1px solid var(--line);
+  }
+  .sq-hero .sq-image-caption p {
+    color: var(--ink);
+  }
+  .sq-hero .sq-image-caption .text-sq-muted {
+    color: var(--muted);
+  }
+  .sq-hero .sq-image-caption .text-sq-accent {
+    color: var(--green);
+  }
+
+  .sq-shell .sq-personal-photo img,
+  .sq-shell .article-cover,
+  .sq-shell .post-preview > img {
+    width: 100%;
+    height: auto;
+    max-height: none;
+    aspect-ratio: auto;
+    object-fit: contain;
+  }
+
+  .sq-shell .post-image,
+  .sq-shell .home-posts .post-card .post-image,
+  .sq-shell .blog-posts .post-card .post-image {
+    height: auto;
+    max-height: none;
+    aspect-ratio: auto;
+  }
+  .sq-shell .post-image > img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  .sq-shell .post-card a:hover .post-image > img {
+    transform: none;
+  }
+
+  .sq-shell .project-card .project-image {
+    height: auto;
+    aspect-ratio: 4 / 3;
+    padding: 16px;
+  }
+  .sq-shell .project-card .project-image img {
+    object-fit: contain;
+    object-position: center;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .sq-shell .project-card a:hover img {
+    transform: none;
+  }
+  .sq-shell .gallery-main img {
+    height: auto;
+    max-height: 75svh;
+    object-fit: contain;
+  }
+}
